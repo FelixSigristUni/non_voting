@@ -1,0 +1,84 @@
+---
+title: "Gliederung"
+output: html_document
+---
+
+Gliederung der Seminararbeit
+
+1. Einleitung
+
+Einführung ins Thema: Nichtwählende in der Schweiz
+
+Forschungsfrage und Relevanz
+
+Übersicht zum Aufbau der Arbeit
+
+2. Theoretische Grundlagen
+
+2.1 Typen von Nichtwählenden (basierend auf Milbrath, 1965)
+
+Beschreibung und theoretische Begründung der drei Typen:
+
+Apathische Nichtwählende
+
+Zufriedene Nichtwählende
+
+Protestierende Nichtwählende
+
+Abgrenzung und Operationalisierung der Typen
+
+2.2 Erklärung der Gruppenzugehörigkeit
+
+Theoretische Herleitung der Hypothesen zu:
+
+Politisches Interesse
+
+Vertrauen und Zufriedenheit mit dem politischen System
+
+Wahrnehmung der Effektivität von Wahlen
+
+Sozioökonomischer Status
+
+Parteiidentifikation
+
+3. Datengrundlage und Methodik
+
+Beschreibung des SELECTS-Datensatzes (Panel 2019–2023)
+
+Auswahl und Definition der abhängigen und unabhängigen Variablen
+
+Methode: Multinomiale logistische Regression
+
+Erklärung des Vorgehens zur Modellbildung und -auswahl
+
+4. Empirische Ergebnisse
+
+Deskriptive Statistik der Variablen
+
+Ergebnisse der multinomialen logistischen Regression (drei Modelle)
+
+Modellvergleich und Identifikation des Modells mit bester Erklärungskraft
+
+5. Diskussion und Interpretation der Ergebnisse
+
+Bewertung der empirischen Ergebnisse im Kontext der theoretischen Grundlagen
+
+Implikationen für die politische Praxis (Mobilisierung)
+
+Grenzen der Studie und mögliche Weiterentwicklungen
+
+6. Fazit
+
+Zusammenfassung der zentralen Erkenntnisse
+
+Beantwortung der Forschungsfrage
+
+Kurzer Ausblick auf weitere Forschungsperspektiven
+
+Literaturverzeichnis
+
+Anhang
+
+Robustheitschecks
+
+Zusätzliche Analysen (z.B. binäre logistische Regressionen als Ergänzung)

@@ -1,0 +1,91 @@
+---
+title: "Non-voters in Switzerland"
+subtitle: "A Data Analysis non voting"
+author: 
+  - "Felix Sigrist, felix.sigrist@stud.unilu.ch.com, 19-641-968"
+  - "Supervisor: Prof. Dr. Benjamin Schlegel"
+  - "Number of words: 2200"
+lang: en
+date: today
+date-format: "D. MMMM YYYY"
+format: 
+  pdf:
+    documentclass: scrreprt
+    number-sections: true
+    toc: true
+    toc-depth: 2
+    lof: true
+    lot: true
+    include-in-header:
+      - text: |
+          \usepackage{authblk}
+          \usepackage{titling}
+fontsize: 12pt
+linestretch: 1.5
+geometry: left=2.5cm,right=2.5cm,top=3cm,bottom=3cm
+bibliography: test.bib
+citeproc: true
+execute:
+  echo: false
+  warning: false
+knitr:
+  opts_chunk:
+    message: false
+lof: true
+lot: true
+---
+
+# Abstract {.unnumbered}
+
+This paper examines how different types of non-voters in Switzerland can be classified and to which degree this classification models can predict whether someone votes or does not vote. 
+
+# Introduction
+
+Elections are a cornerstone of democratic legitimacy
+
+# Literature Review
+
+Previous studies emphasize the role of economic evaluations in voting behavior. Kriesi (2006) highlights the divide between globalization winners and losers, embedded in the political space. This paper extends prior work by examining political knowledge as a moderating factor.
+
+# Theory
+
+Economic voting theory suggests that voters reward or punish incumbents based on economic performance. We hypothesize:
+
+H1: Negative economic evaluations decrease the likelihood of voting for the incumbent.\
+H2: Political knowledge moderates this effect, with informed voters responding more strongly to economic perceptions.
+
+@fig-model presents the theoretical framework.
+
+![Theoretical model](modell.pdf){#fig-model}
+
+# Empirical Analysis
+
+## Data and Descriptive Statistics
+
+We use data from the CSES dataset, focusing on economic evaluations, incumbent support, and controls. Descriptive statistics are summarized in @tbl-stats.
+
+```{r}
+
+```
+
+## Methods
+
+We estimate an OLS model and a logistic regression with interaction terms. The dependent variable is voting for the incumbent, and key predictors include economic evaluations and political information.
+
+## Results
+
+OLS results are shown in @tbl-reg.
+
+
+
+Logistic regression results explore interaction effects, visualized in @fig-interaction.
+
+
+
+# Discussion
+
+The results confirm that negative economic perceptions reduce incumbent support. Politically informed voters show a stronger reaction, highlighting the moderating role of knowledge.
+
+# Conclusion
+
+This study supports economic voting theory, emphasizing political information as a critical moderator. Future research should explore additional factors influencing voting behavior.
