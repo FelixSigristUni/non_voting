@@ -194,60 +194,36 @@ Respondents who did not fall clearly into one of these categories were excluded 
 
 Table 1 below summarizes the group sizes:
 
+
+
 ```{r}
-#| label: table-votegroups
 #| echo: false
-#| results: asis
-
-library(dplyr)
-library(knitr)
-
-df_model %>%
-  count(vote_group, name = "N") %>%
-  arrange(desc(N)) %>%
-  kable(caption = "Table 1: Distribution of vote groups in the analytical sample",
-        col.names = c("Group", "N"))
-
-
-```
-
-```{r}
-# Load required packages
 library(tidyverse)
 library(haven)
 library(janitor)
 library(naniar)
 
-# 1. Load and clean the SPSS dataset
-data_path <- "Daten/2626_Selects2023_Panel_Data_v2.0.sav"
+# Load and clean dataset
+df <- read_sav("Daten/2626_Selects2023_Panel_Data_v2.0.sav") %>%
+  zap_labels() %>%           
+  clean_names()              
 
-df <- read_sav(data_path) %>%
-  zap_labels() %>%           # remove SPSS labels
-  clean_names()              # snake_case variable names
-
-# 2. Identify persistent non-voters (abstained in both 2019 and 2023)
+# Identify persistent non-voters (did not vote in both 2019 and 2023)
 df_nv <- df %>%
-  filter(w1_f10200rec == 0,            # did not vote in 2019
-         w3_f11100 %in% c(1, 2, 3))    # did not vote in 2023 (various forms)
+  filter(w1_f10200rec == 0, w3_f11100 %in% c(1, 2, 3))
 
-# 3. Classify non-voters into types based on reasons for abstention in 2023
+# Classify non-voters into types based on 2023 reasons
 df_nv <- df_nv %>%
   mutate(
     vote_group = case_when(
-      # Apathetic: no interest, too complicated, no information
       w3_f11301 == 1 | w3_f11302 == 1 | w3_f11303 == 1 ~ "apathetic",
-
-      # Protest-oriented: system or party dissatisfaction
       w3_f11306 == 1 | w3_f11307 == 1 ~ "protest",
-
-      # Satisfied/Alternative: no need to vote, generally satisfied
       w3_f11309 == 1 | w3_f11310 == 1 ~ "satisfied",
-
       TRUE ~ NA_character_
     )
   )
 
-# 4. Add the group of consistent voters (voted in both elections)
+# Add consistent voters
 df <- df %>%
   mutate(
     vote_group = case_when(
@@ -256,50 +232,106 @@ df <- df %>%
     )
   )
 
-# 5. Merge back the classified non-voters into the main dataset
+# Merge voter types back into main dataset
 df$vote_group[df$id %in% df_nv$id] <- df_nv$vote_group
 
-# 6. Optional: Filter final dataset to only include valid vote_group values
+# Create all additional variables BEFORE filtering
+df <- df %>%
+  mutate(
+    # Z-standardized predictors
+    interest_z = scale(w3_f10100)[,1],
+    trust_council_z = scale(w3_f12800a)[,1],    # Federal Council
+    trust_parliament_z = scale(w3_f12800b)[,1], # Parliament
+    discussion_z = scale(w2_f13310)[,1],        # from Wave 2
+
+    # Media use index from 5 sources (Wave 3)
+    media_index = rowMeans(select(., w3_f12610a, w3_f12610b, w3_f12610d, w3_f12610g, w3_f12610i), na.rm = TRUE),
+    media_index_z = scale(media_index)[,1],
+
+    # Dummy: party membership (1 = yes, 0 = no)
+    membership_dummy = if_else(w3_f14081rec == 1, 1, 0),
+
+    # Categorical predictors
+    vote_group = relevel(factor(vote_group), ref = "voter"),
+    education = factor(w1_f21310rec),
+    income = factor(w1_f28910),
+    employment = factor(w1_f21400)
+  )
+
+# Final filtered dataset for modelling
 df_model <- df %>%
   filter(!is.na(vote_group))
 
-# 7. Check group counts
+# Show group distribution
 table(df_model$vote_group, useNA = "always")
 
 
 ```
-
-
-
 ```{r}
-library(nnet)
-library(broom.mixed)
-library(jtools)
-library(haven)
+#| label: table-votegroups
+#| echo: false
+#| results: asis
+#| warning: false
+#| message: false
 
-df<-read_sav("Daten/2626_Selects2023_Panel_data_v2.0.sav")
+library(dplyr)
+library(knitr)
 
-# Modell 1: Politisches Interesse & Systemvertrauen
-model1 <- multinom(vote_group ~ pol_interest + trust_parliament + trust_government, data = df)
+df_model %>%
+  count(vote_group, name = "N") %>%
+  arrange(desc(N)) %>%
+  mutate(share = round(100 * N / sum(N), 1)) %>%
+  kable(
+    caption = "Table 1: Distribution of vote groups in the analytical sample",
+    col.names = c("Group", "N", "Share (%)")
+  )
 
-# Übersicht
-summary(model1)
-
-# P-Werte berechnen (standardmäßig nicht enthalten)
-z <- summary(model1)$coefficients / summary(model1)$standard.errors
-p <- 2 * (1 - pnorm(abs(z)))
-
-# Ergebnis-Tabelle (log-odds)
-round(p, 4)
-
-# Alternativ: nicer Output
-library(jtools)
-summ(model1, exp = TRUE)  # exp=TRUE zeigt Odds Ratios statt Logits
 ```
+
+
+
 
 ## Methods
 
-We estimate an OLS model and a logistic regression with interaction terms. The dependent variable is voting for the incumbent, and key predictors include economic evaluations and political information.
+o test the proposed hypotheses, we estimate a multinomial logistic regression model. This modeling approach is appropriate for nominal dependent variables with more than two categories. The dependent variable in this analysis is `vote_group`, which consists of four categories: **voters** (reference category), **apathetic**, **protest-oriented**, and **satisfied/alternative** non-voters.
+
+The analysis is conducted in three steps, each corresponding to a model with increasing complexity:
+
+- **Model 1** includes political interest and political trust — key motivational components from the Civic Voluntarism Model.
+- **Model 2** adds indicators of socioeconomic status: education level, income, and occupational status.
+- **Model 3** further includes variables related to social integration and political communication: media use, organizational membership, and frequency of political discussions.
+
+All models are estimated using **multinomial logistic regression** with robust standard errors. The interpretation of coefficients is based on **log-odds** relative to the reference category (**voters**). For ease of interpretation, average marginal effects (AMEs) are reported in the results section.
+
+Prior to analysis, all continuous predictors are standardized (mean = 0, sd = 1). Categorical predictors are converted to factors. Missing values are handled using listwise deletion. The final analytical sample consists of 589 cases with a valid `vote_group` classification and complete data on the relevant predictors.
+
+## Variable Operationalization
+
+The dependent variable `vote_group` is a categorical variable with four values: **voter** (reference category), **apathetic**, **protest-oriented**, and **satisfied/alternative** non-voters. It is constructed based on self-reported turnout behavior in 2019 (`w1_f10200rec`) and 2023 (`w3_f11100`), as well as respondents’ stated reasons for abstaining in 2023 (`w3_f11301` to `w3_f11310`).
+
+The independent variables are grouped according to the logic of the Civic Voluntarism Model and introduced step-by-step in three models:
+
+### Model 1: Political Motivation
+
+- **Political Interest** (`w3_f10100`): “How interested are you in politics?” (scale: 0–10)
+- **Trust in Parliament** (`w3_f12800_1`): “How much do you trust the National Parliament?” (scale: 0–10)
+- **Trust in Federal Council** (`w3_f12800_2`): “How much do you trust the Federal Council?” (scale: 0–10)
+
+### Model 2: Socioeconomic Resources
+
+- **Education Level** (`w3_f21310`): Highest completed education level (recoded to ordinal scale)
+- **Income** (`w3_f22000_rec`): Monthly household income (recoded, 11 categories)
+- **Employment Status** (`w3_f21000`): Employment situation (e.g. full-time, unemployed, student; recoded to factor)
+
+### Model 3: Social Integration & Political Communication
+
+- **Media Use** (`w3_f12610_1` to `_5`): Frequency of political news consumption via newspapers, TV, internet (aggregated index)
+- **Organizational Membership** (`w3_n13_1` to `_8`): Membership in political parties, associations, unions etc. (dummy: any membership yes/no)
+- **Political Discussion Frequency** (`w3_f13310`): “How often do you talk about politics with friends/family?” (5-point scale)
+
+All continuous variables are z-standardized. Categorical predictors are converted to factors. Items with recodes are taken from the publicly released version of the SELECTS 2023 Panel dataset (v2.0).
+
+
 
 ## Results
 
