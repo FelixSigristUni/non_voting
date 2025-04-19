@@ -37,104 +37,136 @@ knitr:
 
 # Abstract {.unnumbered}
 
-This paper examines how different types of non-voters in Switzerland can be classified and to which degree this classification models can predict whether someone votes or does not vote. 
+This paper examines how different types of non-voters in Switzerland can be classified and to which degree this classification models can predict whether someone votes or does not vote.
 
 # Introduction
 
-Elections are a cornerstone of democratic legitimacy
+Although elections are a cornerstone of democratic legitimacy, more than half of the Swiss electorate regularly abstains from voting in federal elections. With voter turnout consistently below 50 percent since the 1970s, electoral abstention is not a a marginal anomaly but a structural feature of Swiss democracy[@freitag_labor_2005]. This disengagement raises many questions about democratic representation and political inclusion. 
 
-# Literature Review: Typologies and Theoretical Approaches to Electoral Abstention in Switzerland
+Despite the scale of this phenomenon, the empirical study of it has long been underdeveloped in Switzerland. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] observed, Swiss electoral research seems to be showing an "astonishing restraint" in adressing non-voting empirically - even though Switzerland, toghether with the Unied States, ranks among the countries with the lowest voter turnout in national elections accross established democracies. This international positioning is often noted in comparative electoral studies [@freitag_labor_2005; @ostrander_using_2021].
 
-Political non-voting is a central theme in research on Swiss democracy. therefore several studies have aimed to typologize the heterogeneous group of non-voters and explain their behavior using theoretical models.
+In recent years, however, the traditional assumption that abstention equals apathy has been more and more challenged. Typological and theory-driven approaches
+
+```{r}
+library(ggplot2)
+
+#read in data
+Participation<-read.csv("Daten/NRW-Zeitreihe.csv",sep = ";")
+
+#filter for national data
+Participation_national<- subset(Participation, geoLevelName == "Schweiz")
+
+ggplot(Participation_national, aes(x = wahl_jahr, y = wahlbeteiligung)) +
+  geom_line(color = "#0072B2", size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title = "Voter Turnout in Swiss National Council Elections",
+    x = "Election Year",
+    y = "Turnout (%)"
+  ) +
+  theme_minimal(base_size = 13) +
+  scale_x_continuous(breaks = seq(min(Participation_national$wahl_jahr), max(Participation_national$wahl_jahr), by = 4)) +
+  ylim(30, 60)
+
+
+
+#| echo: false
+#| eval: false
+#| error: false
+#| label: 
+
+```
+
+# Literature Review
+
+Political non-voting is a central theme in research on Swiss democracy. Several studies have aimed to typologize the heterogeneous group of non-voters and explain their behavior using theoretical models and empirical typologies.
 
 ## Classical Approaches to Political Participation
 
-Earlier studies explaining voter turnout were largely grounded in the **socio-structural** (e.g., Lazarsfeld), **social-psychological** (Campbell et al.), and **rational choice** (Downs) approaches. These frameworks were later enriched by participation research, especially the **Standard Model of Political Participation** (Barnes & Kaase, 1979), emphasizing socioeconomic resources and cognitive mobilization [@vatter_pdf_2003].
+Earlier research on voter turnout was largely grounded in the **socio-structural** approach (e.g., Lazarsfeld), the **social-psychological** model (e.g., Campbell et al.), and **rational choice** theory (e.g., Downs). These were later extended through the **Standard Model of Political Participation** (Barnes & Kaase, 1979), which emphasized the role of socioeconomic resources and cognitive mobilization [@vatter_pdf_2003].
 
-An conceptual was introduced by the **Civic Voluntarism Model** [@fatke_wollen_2015], which identifies **resources**, **motivation**, and **social networks** as important factors for political participation. This framework has proven particularly fruitful for empirically identifying different types of non-voters.
+A conceptual advancement came with the introduction of the **Civic Voluntarism Model (CVM)** [@ostrander_using_2021], which identifies three central factors influencing political participation: **resources**, **motivation**, and **recruitment networks**. The CVM has proven particularly useful in explaining unequal patterns of participation and in identifying different types of abstainers.
 
 ## Milbrath’s Hierarchical Model of Participation
 
-Milbrath’s framework [@ruedin_testing_2007] conceptualizes participation as a **cumulative hierarchy** — from passive disengagement to elite political engagement. It integrates both **personal characteristics** and **external stimuli**, using the metaphor of a “ladder of political involvement.” Ruedin's simulation study validates this model and demonstrates the importance of both institutional contexts and interpersonal communication in fostering participation.
+Milbrath’s framework [@ruedin_testing_2007] conceptualizes political participation as a **cumulative hierarchy**—ranging from passive forms of involvement (e.g., voting, discussing politics) to more active and elite-level activities (e.g., running for office). This model combines individual characteristics with exposure to political stimuli and has been validated through simulation studies that demonstrate the dynamic interplay of individual and institutional factors.
 
 ## A Swiss Typology: Bühlmann et al. (2003)
 
-[@vatter_pdf_2003] developed a typology of Swiss non-voters based on cluster analysis of the 1999 federal elections. They identified six types:
+[@vatter_pdf_2003] developed one of the first typologies of Swiss non-voters using cluster analysis on survey data from the 1999 federal elections. Their typology includes six distinct types:
 
-- Politically Disinterested  
-- Politically Disenchanted  
-- Socially Isolated  
-- Politically Incompetent  
-- Protest Voters  
-- Alternative Participants  
+-   Politically Disinterested\
+-   Politically Disenchanted\
+-   Socially Isolated\
+-   Politically Incompetent\
+-   Protest Voters\
+-   Alternative Participants
 
-These types were derived from factor-analytic dimensions: political interest, competence, system trust, and socioeconomic status.
+These types differ in terms of political interest, efficacy, trust in institutions, and socioeconomic resources.
 
 ## Extension and Replication: Fatke & Freitag (2015)
 
-Building on this, [@fatke_wollen_2015] used data from the 2011 Swiss federal elections and applied the same Civic Voluntarism lens. They identified six similar but updated types of non-voters — including *satisfied but disengaged*, *incompetent*, and *abstaining but participatory*. Their findings underline that abstention is **not** a monolithic phenomenon, but results from complex, varied reasons.
+[@fatke_wollen_2015] built upon this typology using SELECTS 2011 data. Their cluster analysis refined the groupings and reaffirmed the heterogeneity of non-voters. Types such as *satisfied but disengaged*, *incompetent*, and *abstaining but participatory* highlight that abstention does not always stem from apathy or alienation, but also from rational disengagement or alternative political expression.
 
 ## Democratic Implications and Empirical Consensus
 
-Across all studies, a consistent insight emerges: **non-voters are not a homogeneous group**. The most problematic from a democratic perspective are the *socially isolated* and *incompetent*, who lack both resources and supportive environments [@fatke_nichtwahlenden_2015].
+Across all studies, a key insight prevails: **non-voters are not a homogeneous group**. From a democratic theory perspective, the most problematic are the **socially isolated** and **incompetent**, who lack both the resources and social networks for political engagement [@fatke_nichtwahlenden_2015].
 
-However, not all abstention indicates apathy or disaffection. Some groups — such as the *alternative participants* or the *satisfied disengaged* — opt out of elections because they are either politically content or prefer other forms of participation (e.g., initiatives, protests) [@fatke_nichtwahlenden_2015].
+At the same time, not all abstention is a cause for concern. **Alternative participants** or the **satisfied disengaged**, for example, abstain not due to rejection or apathy, but because they either prefer other forms of participation (e.g., initiatives, petitions) or are fundamentally satisfied with the system.
 
-Low turnout, therefore, should not be automatically interpreted as a crisis of democracy — but as a signal of differentiated modes of political engagement.
+This differentiated understanding provides the conceptual bridge to the following theory section, which formalizes these empirical distinctions into a testable framework.
 
-
+------------------------------------------------------------------------
 
 # Theory
 
 ## Electoral Abstention as a Multi-Dimensional Phenomenon
 
-Political non-voting has traditionally been viewed as a simple lack of civic engagement. However, contemporary research has demonstrated that non-voters are far from homogeneous: they vary widely in motivation, capabilities, social embeddedness, and attitudes towards politics. Typologies of non-voters have emerged as a more nuanced framework, arguing that abstention results from a variety of individual resource constellations, political orientations, and forms of societal integration [@vatter_pdf_2003; @fatke_wollen_2015].
+Political abstention is increasingly seen as a multidimensional phenomenon. Contemporary research emphasizes that non-voters differ systematically in terms of political motivation, cognitive engagement, social integration, and structural access. Typological approaches have shown that abstention reflects distinct profiles of political disengagement, rather than a binary act of participation versus non-participation [@vatter_pdf_2003; @fatke_wollen_2015].
 
 ## The Civic Voluntarism Model as Theoretical Foundation
 
-This study relies on the **Civic Voluntarism Model** (CVM) by Verba, Schlozman, and Brady, which posits that political participation depends primarily on three factors:
-1. **Resources** (e.g., time, money, civic skills)
-2. **Motivation** (e.g., political interest, efficacy)
-3. **Recruitment networks** (e.g., social integration, mobilization)
+This study applies the **Civic Voluntarism Model (CVM)** [@ostrander_using_2021], which explains political engagement through three core components:
 
-Non-voting can thus be interpreted as the result of lacking one or more of these factors, rather than simply a sign of disengagement or protest. The CVM offers a useful theoretical lens to differentiate types of abstention based on individual-level deficits in motivation, resources, or integration.
+1.  **Resources** – time, money, civic skills, and knowledge\
+2.  **Motivation** – interest in politics, efficacy, ideological conviction\
+3.  **Recruitment Networks** – social integration, group membership, mobilization
+
+According to CVM, individuals are more likely to participate politically when they are motivated, able, and socially embedded. Conversely, the absence of any one of these factors can lead to abstention. Crucially, access to these dimensions is unequally distributed—meaning that political inequality is reproduced through structural exclusion [@ostrander_using_2021].
+
+The CVM therefore provides a robust foundation for explaining **persistent abstention**, as it integrates individual capacities, perceptions, and social context into one explanatory model.
 
 ## Typologies of Non-Voters in Switzerland
 
-Building on the CVM, Bühlmann, Freitag, and Vatter [@vatter_pdf_2003] introduced a detailed typology of Swiss non-voters, later refined by Fatke and Freitag [@fatke_wollen_2015]. Their empirical work identifies multiple types, such as:
-- **Apathetic non-voters** (low interest, low competence, low integration)
-- **Protest-oriented non-voters** (low system trust, high dissatisfaction)
-- **Satisfied or alternative participants** (content with the system or engaged through other forms)
-- **Socially isolated** (lack of networks)
-- **Politically incompetent** (low education, low efficacy)
+Building on the CVM, the typologies developed by Bühlmann et al. [@vatter_pdf_2003] and extended by Fatke & Freitag [@fatke_wollen_2015] offer a detailed framework for classifying non-voters. For the purpose of this study, these types are aggregated into three theoretically meaningful categories:
 
-For the purpose of this study, these can be aggregated into three main theoretical groups, each rooted in a specific mechanism of abstention:
+| Type | Main Mechanism | Theoretical Foundation |
+|----------------------|-------------------------|-------------------------|
+| **Apathetic** | Lack of motivation/resources | Civic Voluntarism Model |
+| **Protest-oriented** | Political alienation | System support/trust theory |
+| **Satisfied/Alternative** | Rational disengagement | Expressive/instrumental logic |
 
-| Type                      | Main Mechanism                 | Theoretical Foundation        |
-|---------------------------|--------------------------------|------------------------------|
-| **Apathetic**             | Lack of motivation/resources   | Civic Voluntarism Model      |
-| **Protest-oriented**      | Political alienation           | System support/trust theory  |
-| **Satisfied/Alternative** | Rational non-participation     | Expressive/instrumental participation |
+This typology provides the conceptual basis for analyzing **persistent non-voters**, i.e., those who abstained in both 2019 and 2023 federal elections in Switzerland.
 
-## Focus on Persistent Non-Voters
+## Persistent Non-Voting as an Analytical Focus
 
-This research specifically examines **persistent non-voters**—individuals who abstained in both the 2019 and 2023 Swiss federal elections. Compared to situational abstainers, persistent non-voters are more likely to display stable psychological, ideological, or structural characteristics. By classifying the types within this subgroup, the analysis seeks to provide a theoretically grounded explanation for enduring abstention.
+Persistent abstention is of particular interest, as it suggests more entrenched and stable forms of disengagement. Unlike situational abstention, which may result from temporary constraints, persistent non-voters are likely to exhibit deeper structural or attitudinal barriers. Typologizing this group allows for a theory-driven understanding of *why* certain individuals consistently opt out of electoral politics.
 
 ## Theoretical Expectations and Hypotheses
 
-Based on this typology, the following hypotheses are derived:
+Based on the typology and the Civic Voluntarism Model, the following hypotheses are derived:
 
-- **H1 (Political Interest & Knowledge):** Apathetic non-voters will report significantly lower political interest and political knowledge than other groups.
-- **H2 (System Satisfaction & Trust):** Protest-oriented non-voters will express lower trust in political institutions and lower satisfaction with democracy than other groups.
-- **H3 (Socioeconomic Status):** Apathetic non-voters will have lower levels of education and income, while satisfied/alternative non-voters will resemble voters in their socioeconomic status.
-- **H4 (Social Integration):** Apathetic non-voters will display weaker social ties and fewer organizational memberships compared to other groups.
-- **H5 (Party Identification & Ideological Self-Placement):** Protest-oriented non-voters will be politically positioned on the ideological spectrum but report weak or no party identification.
+-   **H1 (Political Interest & Knowledge):** Apathetic non-voters report significantly lower political interest and political knowledge than other groups.
 
-To empirically test these hypotheses, a multinomial logistic regression will be estimated, using **voters** as the reference category and the predictors derived from the theoretical framework.
+-   **H2 (System Satisfaction & Trust):** Protest-oriented non-voters express lower trust in political institutions and lower satisfaction with democracy than other groups.
 
+-   **H3 (Socioeconomic Status):** Apathetic non-voters have lower levels of education and income, while satisfied/alternative non-voters resemble voters in their socioeconomic status.
 
+-   **H4 (Social Integration):** Apathetic non-voters show weaker social integration (e.g., fewer memberships or interpersonal networks) than other groups.
 
+-   **H5 (Party Identification & Ideological Self-Placement):** Protest-oriented non-voters are ideologically positioned but report weak or no party identification.
 
+These hypotheses will be empirically tested using a multinomial logistic regression model, treating **voters** as the reference category. The predictors reflect the theoretical dimensions discussed above.
 
 # Empirical Analysis
 
@@ -154,11 +186,7 @@ We estimate an OLS model and a logistic regression with interaction terms. The d
 
 OLS results are shown in @tbl-reg.
 
-
-
 Logistic regression results explore interaction effects, visualized in @fig-interaction.
-
-
 
 # Discussion
 
