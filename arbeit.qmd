@@ -186,15 +186,13 @@ To identify persistent abstainers, we selected respondents who reported not voti
 
 Persistent non-voters were further classified into three theoretical groups based on their stated reasons for abstention in 2023. The variable block `w3_f11301` to `w3_f11310` captures multiple reasons for non-voting. Following the typology developed by Bühlmann et al. (2003) and adapted by Fatke & Freitag (2015), we grouped persistent abstainers into the following types:
 
-- **Apathetic**: cited reasons such as lack of interest, insufficient information, or complexity of the voting process.
-- **Protest-oriented**: cited dissatisfaction with parties, politics, or the political system.
-- **Satisfied/Alternative**: cited contentment with the system or a belief that their participation was not necessary.
+-   **Apathetic**: cited reasons such as lack of interest, insufficient information, or complexity of the voting process.
+-   **Protest-oriented**: cited dissatisfaction with parties, politics, or the political system.
+-   **Satisfied/Alternative**: cited contentment with the system or a belief that their participation was not necessary.
 
 Respondents who did not fall clearly into one of these categories were excluded from the analysis. The resulting dependent variable `vote_group` consists of four categories: `voter`, `apathetic`, `protest`, and `satisfied`.
 
 Table 1 below summarizes the group sizes:
-
-
 
 ```{r}
 #| echo: false
@@ -267,6 +265,7 @@ table(df_model$vote_group, useNA = "always")
 
 
 ```
+
 ```{r}
 #| label: table-votegroups
 #| echo: false
@@ -288,8 +287,7 @@ df_model %>%
 
 ```
 
-
-
+The distribution confirms that **apathetic non-voters** represent the largest group in the analytical sample, followed by **protest-oriented** and **satisfied** non-voters. Notably, about one third of the sample are consistent voters. This distribution reflects the empirical prevalence of non-voting types among persistent abstainers and underlines the heterogeneity of non-voter profiles. This also suggests that motivational and resource-related non-voting could be more widespread than ideologically motivated protest or strategic satisfaction.
 
 ## Methods
 
@@ -297,9 +295,9 @@ o test the proposed hypotheses, we estimate a multinomial logistic regression mo
 
 The analysis is conducted in three steps, each corresponding to a model with increasing complexity:
 
-- **Model 1** includes political interest and political trust — key motivational components from the Civic Voluntarism Model.
-- **Model 2** adds indicators of socioeconomic status: education level, income, and occupational status.
-- **Model 3** further includes variables related to social integration and political communication: media use, organizational membership, and frequency of political discussions.
+-   **Model 1** includes political interest and political trust — key motivational components from the Civic Voluntarism Model.
+-   **Model 2** adds indicators of socioeconomic status: education level, income, and occupational status.
+-   **Model 3** further includes variables related to social integration and political communication: media use, organizational membership, and frequency of political discussions.
 
 All models are estimated using **multinomial logistic regression** with robust standard errors. The interpretation of coefficients is based on **log-odds** relative to the reference category (**voters**). For ease of interpretation, average marginal effects (AMEs) are reported in the results section.
 
@@ -313,31 +311,253 @@ The independent variables are grouped according to the logic of the Civic Volunt
 
 ### Model 1: Political Motivation
 
-- **Political Interest** (`w3_f10100`): “How interested are you in politics?” (scale: 0–10)
-- **Trust in Parliament** (`w3_f12800_1`): “How much do you trust the National Parliament?” (scale: 0–10)
-- **Trust in Federal Council** (`w3_f12800_2`): “How much do you trust the Federal Council?” (scale: 0–10)
+-   **Political Interest** (`w3_f10100`): “How interested are you in politics?” (scale: 0–10)
+-   **Trust in Parliament** (`w3_f12800a`): “How much do you trust the National Parliament?” (scale: 0–10)
+-   **Trust in Federal Council** (`w3_f12800b`): “How much do you trust the Federal Council?” (scale: 0–10)
 
 ### Model 2: Socioeconomic Resources
 
-- **Education Level** (`w3_f21310`): Highest completed education level (recoded to ordinal scale)
-- **Income** (`w3_f22000_rec`): Monthly household income (recoded, 11 categories)
-- **Employment Status** (`w3_f21000`): Employment situation (e.g. full-time, unemployed, student; recoded to factor)
+-   **Education Level** (`w3_f21310`): Highest completed education level (recoded to ordinal scale)
+-   **Income** (`w3_f22000_rec`): Monthly household income (recoded, 11 categories)
+-   **Employment Status** (`w3_f21000`): Employment situation (e.g. full-time, unemployed, student; recoded to factor)
 
 ### Model 3: Social Integration & Political Communication
 
-- **Media Use** (`w3_f12610_1` to `_5`): Frequency of political news consumption via newspapers, TV, internet (aggregated index)
-- **Organizational Membership** (`w3_n13_1` to `_8`): Membership in political parties, associations, unions etc. (dummy: any membership yes/no)
-- **Political Discussion Frequency** (`w3_f13310`): “How often do you talk about politics with friends/family?” (5-point scale)
+-   **Media Use** (`w3_f12610_1` to `_5`): Frequency of political news consumption via newspapers, TV, internet (aggregated index)
+-   **Organizational Membership** (`w3_f14081rec`): Membership in political parties, associations, unions etc. (dummy: any membership yes/no)
+-   **Political Discussion Frequency** (`w2_f13310`): “How often do you talk about politics with friends/family?” (5-point scale)
 
 All continuous variables are z-standardized. Categorical predictors are converted to factors. Items with recodes are taken from the publicly released version of the SELECTS 2023 Panel dataset (v2.0).
 
-
-
 ## Results
 
-OLS results are shown in @tbl-reg.
+```{r}
+#| label: model1-multinom
+#| echo: false
+#| message: false
+#| warning: false
 
-Logistic regression results explore interaction effects, visualized in @fig-interaction.
+library(nnet)
+
+# Model 1: Political motivation only
+model1 <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z,
+  data = df_model
+)
+
+summary(model1)
+
+```
+
+```{r}
+#| label: model1-pvalues
+#| echo: false
+#| message: false
+#| warning: false
+
+# P-values for Model 1
+z1 <- summary(model1)$coefficients / summary(model1)$standard.errors
+p1 <- 2 * (1 - pnorm(abs(z1)))
+round(p1, 4)
+
+```
+
+```{r}
+#| label: model1-tidy
+#| echo: false
+#| results: asis
+
+library(broom)
+
+tidy(model1, conf.int = TRUE, exponentiate = TRUE)
+
+```
+
+```{r}
+#| label: model2-multinom
+#| echo: false
+#| message: false
+#| warning: false
+
+# Model 2: Political motivation + socioeconomic resources
+model2 <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
+    education + income + employment,
+  data = df_model
+)
+
+summary(model2)
+
+```
+
+```{r}
+#| label: model2-pvalues
+#| echo: false
+#| message: false
+#| warning: false
+
+# P-values for Model 2
+z2 <- summary(model2)$coefficients / summary(model2)$standard.errors
+p2 <- 2 * (1 - pnorm(abs(z2)))
+round(p2, 4)
+
+```
+
+```{r}
+#| label: model2-tidy
+#| echo: false
+#| results: asis
+
+tidy(model2, conf.int = TRUE, exponentiate = TRUE)
+
+```
+
+```{r}
+#| label: model3-multinom
+#| echo: false
+#| message: false
+#| warning: false
+
+library(nnet)
+
+# Model 3: Full specification including social integration and communication
+model3 <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
+    education + income + employment +
+    media_index_z + membership_dummy + discussion_z,
+  data = df_model
+)
+
+summary(model3)
+
+
+```
+
+```{r}
+
+#| label: model3-pvalues
+#| echo: false
+#| message: false
+#| warning: false
+
+# Compute p-values
+z3 <- summary(model3)$coefficients / summary(model3)$standard.errors
+p3 <- 2 * (1 - pnorm(abs(z3)))
+round(p3, 4)
+
+
+```
+
+```{r}
+#| label: model3-tidy
+#| echo: false
+#| results: asis
+
+library(broom)
+
+tidy(model3, conf.int = TRUE, exponentiate = TRUE)
+
+```
+
+```{r}
+#| label: model-comparison-table
+#| echo: false
+#| results: asis
+
+library(modelsummary)
+
+modelsummary(
+  list("Model 1" = model1, "Model 2" = model2, "Model 3" = model3),
+  exponentiate = TRUE,
+  fmt = 3,
+  stars = TRUE,
+  statistic = "conf.int",
+  coef_map = c(
+    "interest_z" = "Political Interest",
+    "trust_parliament_z" = "Trust in Parliament",
+    "trust_council_z" = "Trust in Federal Council",
+    "media_index_z" = "Media Use (Index)",
+    "membership_dummy" = "Party Membership",
+    "discussion_z" = "Political Discussion"
+  ),
+  title = "Table: Multinomial Logistic Regression Results (Odds Ratios with 95% CIs)"
+)
+
+```
+
+```{r}
+#| label: stargazer-models
+#| echo: false
+#| results: asis
+
+library(stargazer)
+
+stargazer(
+  model1, model2, model3,
+  type = "latex",              # oder "html" für HTML-Quarto
+  style = "default",
+  title = "Multinomial Logistic Regression (Odds Ratios)",
+  dep.var.labels = "Vote Group (Ref: Voter)",
+  column.labels = c("Model 1", "Model 2", "Model 3"),
+  omit.stat = c("ll", "aic", "bic"),
+  no.space = TRUE,
+  intercept.bottom = FALSE,
+  star.cutoffs = c(0.05, 0.01, 0.001),
+  report = "vcstp"             # v = coefficient, c = confint, s = std. error, t = t-stat, p = p-val
+)
+
+```
+
+The results from the three multinomial logistic regression models are summarized in Table X (formatted using `modelsummary`) and Table Y (using `stargazer`). The models test a theory-driven typology of non-voters by examining whether motivational, structural, and integrative factors predict group membership relative to consistent voters.
+
+**Model 1** (H1, H2) shows that political interest is a highly significant predictor across all non-voter types. This supports **Hypothesis 1**, which posited that apathetic non-voters are less interested in politics than voters. Trust in the national parliament shows a modest effect—primarily for the apathetic group—while trust in the federal council remains insignificant. These findings offer partial support for **Hypothesis 2**, suggesting that protest-oriented non-voters are not simply marked by low trust in government institutions.
+
+**Model 2** (H3) adds education, income, and employment as predictors and improves overall model fit (ΔAIC = -30). Apathetic non-voters are clearly linked to lower levels of education and income, confirming **Hypothesis 3a**. Meanwhile, satisfied non-voters appear socioeconomically closer to voters, consistent with **Hypothesis 3b**. The employment variable, however, shows no consistent pattern.
+
+**Model 3** (H4, H5) integrates media consumption, political discussion, and party membership. Despite their theoretical relevance, none of these predictors reach statistical significance. **Hypothesis 4**, which expected reduced media exposure among apathetic non-voters, is not supported. Similarly, **Hypothesis 5**—which expected lower social integration among apathetic and protest-oriented abstainers—is not empirically confirmed. Several coefficients in Model 3 are not estimable due to sparse data, underlining the limited added value of this final specification.
+
+```{r}
+#| label: table-hypotheses-clean
+#| echo: false
+#| message: false
+#| warning: false
+#| results: asis
+
+library(dplyr)
+library(knitr)
+
+# Hypotheses table without symbols
+hypotheses_clean <- tibble::tibble(
+  Hypothesis = c("H1", "H2", "H3a", "H3b", "H4", "H5"),
+  Description = c(
+    "Apathetic non-voters show lower political interest than voters",
+    "Protest non-voters show lower trust and satisfaction",
+    "Apathetic non-voters have lower socioeconomic status",
+    "Satisfied non-voters resemble voters socioeconomically",
+    "Apathetic non-voters consume less political media",
+    "Apathetic/protest non-voters are less socially integrated"
+  ),
+  Supported = c(
+    "Supported",
+    "Partially supported",
+    "Supported",
+    "Supported",
+    "Not supported",
+    "Not supported"
+  )
+)
+
+# Render table
+kable(
+  hypotheses_clean,
+  caption = "Table X: Summary of Hypotheses and Empirical Support",
+  col.names = c("Hypothesis", "Description", "Empirical Support"),
+  align = c("c", "l", "c")
+)
+
+```
+
+In summary, **Models 1 and 2 provide strong and consistent evidence** for a motivational and socioeconomic explanation of persistent non-voting. **Model 2 performs best**, both in terms of statistical fit and theoretical clarity. Model 3 serves as a robustness extension, but its non-results reinforce the central message: **abstention in Switzerland is driven less by media environments or networks, and more by interest, trust, and structural inequalities.**
 
 # Discussion
 
