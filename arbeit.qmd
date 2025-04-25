@@ -43,9 +43,9 @@ This paper examines how different types of non-voters in Switzerland can be clas
 
 Although elections are a cornerstone of democratic legitimacy, more than half of the Swiss electorate regularly abstains from voting in federal elections. With turnout consistently below 50 percent since the 1970s [@figure1], abstention has become a structural feature of Swiss democracy [@freitag_labor_2005]. This raises important questions about democratic representation and political inclusion.
 
-Despite its relevance, the phenomenon of non-voting has long been underexplored in Swiss political science. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] noted two decades ago, Swiss electoral research has shown “astonishing restraint” in addressing abstention empirically — even though Switzerland, together with the United States, consistently ranks at the bottom of voter turnout among established democracies [@ostrander_using_2021]. Figure 1 illustrates this trend, showing that turnout in federal elections has remained below 50 percent for over five decades.
+Despite its relevance, the phenomenon of non-voting has long been under explored in Swiss political science. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] noted two decades ago, Swiss electoral research has shown “astonishing restraint” in addressing abstention empirically — even though Switzerland, together with the United States, consistently ranks at the bottom of voter turnout among established democracies [@ostrander_using_2021]. Figure 1 illustrates this trend, showing that turnout in federal elections has remained below the 50 percent mark for over five decades.
 
-Recent research has increasingly challenged the idea that abstention equals apathy. Typological approaches show that non-voters differ substantially in motivation, political attitudes and structural resources [@fatke_wollen_2015]. Studies on selective participation in Switzerland suggest that while some abstain situationally, others remain persistently disengaged [@dermont_taking_2016].
+Recent research has increasingly challenged the idea that abstention equals apathy. Typological approaches show that non-voters differ substantially in motivation, political attitudes and structural resources [@fatke_wollen_2015]. Studies on selective participation in Switzerland suggest that while some abstain situationally, others remain constantly disengaged [@dermont_taking_2016].
 
 This study focuses on these **persistent non-voters** — individuals who abstained in both the 2019 and 2023 federal elections. It builds on the typology developed by Bühlmann et al. [@vatter_pdf_2003], condensing six original types into three analytically useful categories: **apathetic**, **protest-oriented**, and **satisfied or alternative non-voters**.
 
@@ -128,11 +128,9 @@ This differentiated understanding provides the conceptual bridge to the followin
 
 # Theory
 
-## Electoral Abstention as a Multi-Dimensional Phenomenon
+## 1. Theoretical framework
 
-Political abstention is increasingly seen as a multidimensional phenomenon. Contemporary research emphasizes that non-voters differ systematically in terms of political motivation, cognitive engagement, social integration, and structural access. Typological approaches have shown that abstention reflects distinct profiles of political disengagement, rather than a binary act of participation versus non-participation [@vatter_pdf_2003; @fatke_wollen_2015].
-
-## The Civic Voluntarism Model as Theoretical Foundation
+### 1.1 The Civic Voluntarism Model as Theoretical Foundation
 
 This study applies the **Civic Voluntarism Model (CVM)** [@ostrander_using_2021], which explains political engagement through three core components:
 
@@ -144,9 +142,19 @@ According to CVM, individuals are more likely to participate politically when th
 
 The CVM therefore provides a robust foundation for explaining **persistent abstention**, as it integrates individual capacities, perceptions, and social context into one explanatory model.
 
-## Typologies of Non-Voters in Switzerland
 
-Building on the CVM, the typologies developed by Bühlmann et al. [@vatter_pdf_2003] and extended by Fatke & Freitag [@fatke_wollen_2015] offer a detailed framework for classifying non-voters. For the purpose of this study, these types are aggregated into three theoretically meaningful categories:
+### 1.2 Electoral Abstention as a Multi-Dimensional Phenomenon
+
+Political abstention is increasingly seen as a multidimensional phenomenon. Contemporary research emphasizes that non-voters differ systematically in terms of political motivation, cognitive engagement, social integration, and structural access. Typological approaches have shown that abstention reflects distinct profiles of political disengagement, rather than a binary act of participation versus non-participation [@vatter_pdf_2003; @fatke_wollen_2015].
+
+### 1.3 Persistent Non-Voting as an Analytical Focus
+
+Persistent abstention is of particular interest, as it suggests more entrenched and stable forms of disengagement. Unlike situational abstention, which may result from temporary constraints, persistent non-voters are likely to exhibit deeper structural or attitudinal barriers. Typologizing this group allows for a theory-driven understanding of *why* certain individuals consistently opt out of electoral politics.
+
+
+## 2. Typologies of Non-Voters in Switzerland
+
+Building on the CVM and empiric findings, this section presents the typology of persistens non-voters which serves as the dependent variable in this paper. The typologies developed by Bühlmann et al. [@vatter_pdf_2003] and extended by Fatke & Freitag [@fatke_wollen_2015] offer a detailed framework for classifying non-voters. For the purpose of this study, these types are aggregated into three theoretically meaningful categories:
 
 | Type | Main Mechanism | Theoretical Foundation |
 |----------------------|-------------------------|-------------------------|
@@ -156,13 +164,11 @@ Building on the CVM, the typologies developed by Bühlmann et al. [@vatter_pdf_2
 
 This typology provides the conceptual basis for analyzing **persistent non-voters**, i.e., those who abstained in both 2019 and 2023 federal elections in Switzerland.
 
-## Persistent Non-Voting as an Analytical Focus
 
-Persistent abstention is of particular interest, as it suggests more entrenched and stable forms of disengagement. Unlike situational abstention, which may result from temporary constraints, persistent non-voters are likely to exhibit deeper structural or attitudinal barriers. Typologizing this group allows for a theory-driven understanding of *why* certain individuals consistently opt out of electoral politics.
 
-## Theoretical Expectations and Hypotheses
+## 3. Theoretical Expectations and Hypotheses
 
-Based on the typology and the Civic Voluntarism Model, the following hypotheses are derived:
+In order to explain the differences betrween the different types of abstention, testabale hypotheses are derived from the Civic Voluntarism Model and the typology shown above. 
 
 -   **H1 (Political Interest & Knowledge):** Apathetic non-voters report significantly lower political interest and political knowledge than other groups.
 
@@ -182,9 +188,9 @@ These hypotheses will be empirically tested using a multinomial logistic regress
 
 The analysis is based on data from the Swiss Election Study (SELECTS) panel survey, covering the 2019 and 2023 federal elections. The dataset includes respondents who participated in all relevant waves and provides detailed information on political attitudes, behavior, and sociodemographic background.
 
-To identify persistent abstainers, we selected respondents who reported not voting in both the 2019 and 2023 National Council elections. Voting behavior in 2019 is captured by the variable `w1_f10200rec` (re-coded: 1 = voted, 0 = did not vote), and in 2023 by `w3_f11100`. Respondents who reported voting in both elections were classified as **voters** and serve as the reference category in the analysis.
+To identify persistent abstainers, respondents who reported not voting in both the 2019 and 2023 National Council elections were selected. Voting behavior in 2019 is captured by the variable `w1_f10200rec` (re-coded: 1 = voted, 0 = did not vote), and in 2023 by `w3_f11100`. Respondents who reported voting in both elections were classified as **voters** and serve as the reference category in the analysis.
 
-Persistent non-voters were further classified into three theoretical groups based on their stated reasons for abstention in 2023. The variable block `w3_f11301` to `w3_f11310` captures multiple reasons for non-voting. Following the typology developed by Bühlmann et al. (2003) and adapted by Fatke & Freitag (2015), we grouped persistent abstainers into the following types:
+Persistent non-voters were further classified into three theoretical groups based on their stated reasons for abstention in 2023. The variable block `w3_f11301` to `w3_f11310` captures multiple reasons for non-voting. Following the typology developed by Bühlmann et al. (2003) and adapted by Fatke & Freitag (2015), persistent abstainers were grouped into the following types:
 
 -   **Apathetic**: cited reasons such as lack of interest, insufficient information, or complexity of the voting process.
 -   **Protest-oriented**: cited dissatisfaction with parties, politics, or the political system.
@@ -331,184 +337,76 @@ All continuous variables are z-standardized. Categorical predictors are converte
 
 ## Results
 
-```{r}
-#| label: model1-multinom
-#| echo: false
-#| message: false
-#| warning: false
-
+```{r load-models-safe, echo=FALSE, message=FALSE, warning=FALSE}
 library(nnet)
 
-# Model 1: Political motivation only
-model1 <- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z,
-  data = df_model
-)
+# Lade Modelle mit Fehlerprüfung
+model1 <- try(readRDS("models/model1.rds"), silent = TRUE)
+model2_clean <- try(readRDS("models/model2_clean.rds"), silent = TRUE)
+model3_better <- try(readRDS("models/model3_better.rds"), silent = TRUE)
 
-summary(model1)
+# Bei Fehler abbrechen
+if (inherits(model1, "try-error") || !inherits(model1, "multinom")) stop("❌ 'model1' ist kein gültiges Modell.")
+if (inherits(model2_clean, "try-error") || !inherits(model2_clean, "multinom")) stop("❌ 'model2_clean' ist kein gültiges Modell.")
+if (inherits(model3_better, "try-error") || !inherits(model3_better, "multinom")) stop("❌ 'model3_better ist kein gültiges Modell.")
 
-```
-
-```{r}
-#| label: model1-pvalues
-#| echo: false
-#| message: false
-#| warning: false
-
-# P-values for Model 1
+# Z- und P-Werte berechnen
 z1 <- summary(model1)$coefficients / summary(model1)$standard.errors
 p1 <- 2 * (1 - pnorm(abs(z1)))
-round(p1, 4)
+
+z2_clean <- summary(model2_clean)$coefficients / summary(model2_clean)$standard.errors
+p2_clean <- 2 * (1 - pnorm(abs(z2_clean)))
+
+z3_better <- summary(model3_better)$coefficients / summary(model3_better)$standard.errors
+p3_better <- 2 * (1 - pnorm(abs(z3_better)))
 
 ```
 
-```{r}
-#| label: model1-tidy
-#| echo: false
-#| results: asis
-
-library(broom)
-
-tidy(model1, conf.int = TRUE, exponentiate = TRUE)
-
-```
-
-```{r}
-#| label: model2-multinom
-#| echo: false
-#| message: false
-#| warning: false
-
-# Model 2: Political motivation + socioeconomic resources
-model2 <- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
-    education + income + employment,
-  data = df_model
-)
-
-summary(model2)
-
-```
-
-```{r}
-#| label: model2-pvalues
-#| echo: false
-#| message: false
-#| warning: false
-
-# P-values for Model 2
-z2 <- summary(model2)$coefficients / summary(model2)$standard.errors
-p2 <- 2 * (1 - pnorm(abs(z2)))
-round(p2, 4)
-
-```
-
-```{r}
-#| label: model2-tidy
-#| echo: false
-#| results: asis
-
-tidy(model2, conf.int = TRUE, exponentiate = TRUE)
-
-```
-
-```{r}
-#| label: model3-multinom
-#| echo: false
-#| message: false
-#| warning: false
-
-library(nnet)
-
-# Model 3: Full specification including social integration and communication
-model3 <- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
-    education + income + employment +
-    media_index_z + membership_dummy + discussion_z,
-  data = df_model
-)
-
-summary(model3)
-
-
-```
-
-```{r}
-
-#| label: model3-pvalues
-#| echo: false
-#| message: false
-#| warning: false
-
-# Compute p-values
-z3 <- summary(model3)$coefficients / summary(model3)$standard.errors
-p3 <- 2 * (1 - pnorm(abs(z3)))
-round(p3, 4)
-
-
-```
-
-```{r}
-#| label: model3-tidy
-#| echo: false
-#| results: asis
-
-library(broom)
-
-tidy(model3, conf.int = TRUE, exponentiate = TRUE)
-
-```
-
-```{r}
-#| label: model-comparison-table
-#| echo: false
-#| results: asis
-
-library(modelsummary)
-
-modelsummary(
-  list("Model 1" = model1, "Model 2" = model2, "Model 3" = model3),
-  exponentiate = TRUE,
-  fmt = 3,
-  stars = TRUE,
-  statistic = "conf.int",
-  coef_map = c(
-    "interest_z" = "Political Interest",
-    "trust_parliament_z" = "Trust in Parliament",
-    "trust_council_z" = "Trust in Federal Council",
-    "media_index_z" = "Media Use (Index)",
-    "membership_dummy" = "Party Membership",
-    "discussion_z" = "Political Discussion"
-  ),
-  title = "Table: Multinomial Logistic Regression Results (Odds Ratios with 95% CIs)"
-)
-
-```
-
-```{r}
-#| label: stargazer-models
-#| echo: false
-#| results: asis
-
+```{r stargazer-wide-fix, echo=FALSE, results='asis'}
 library(stargazer)
 
+cat("\\begin{table}[H]\n\\centering\n\\resizebox{\\textwidth}{!}{%\n")
+
+# Stargazer ohne Float
 stargazer(
-  model1, model2, model3,
-  type = "latex",              # oder "html" für HTML-Quarto
+  model1, model2_clean, model3_better,
+  type = "latex",
+  float = FALSE,
   style = "default",
-  title = "Multinomial Logistic Regression (Odds Ratios)",
-  dep.var.labels = "Vote Group (Ref: Voter)",
-  column.labels = c("Model 1", "Model 2", "Model 3"),
+  title = "",
+  dep.var.labels = c("Reference category: Voter"),
+  column.labels = c("Model 1", "Model 2 (grouped)", "Model 3 (full)"),
+  covariate.labels = c(
+    "Political Interest", 
+    "Trust in Parliament", 
+    "Trust in Federal Council",
+    "Education: Secondary",
+    "Education: Tertiary",
+    "Income: Mid",
+    "Income: High",
+    "Employment: Part-time",
+    "Employment: Unemployed",
+    "Employment: Retired",
+    "Media Use", 
+    "Party Membership", 
+    "Political Discussion"
+  ),
   omit.stat = c("ll", "aic", "bic"),
   no.space = TRUE,
-  intercept.bottom = FALSE,
   star.cutoffs = c(0.05, 0.01, 0.001),
-  report = "vcstp"             # v = coefficient, c = confint, s = std. error, t = t-stat, p = p-val
+  notes = c("Robust standard errors in parentheses", "* p < 0.05; ** p < 0.01; *** p < 0.001")
 )
 
+cat("}\n\\caption{Multinomial logistic regression comparing non-voter types with voters as the reference category.}\n\\end{table}")
 ```
 
-The results from the three multinomial logistic regression models are summarized in Table X (formatted using `modelsummary`) and Table Y (using `stargazer`). The models test a theory-driven typology of non-voters by examining whether motivational, structural, and integrative factors predict group membership relative to consistent voters.
+
+
+
+
+
+
+The results from the three multinomial logistic regression models are summarized in Tabl X (using `stargazer`). The models test a theory-driven typology of non-voters by examining whether motivational, structural, and integrative factors predict group membership relative to consistent voters.
 
 **Model 1** (H1, H2) shows that political interest is a highly significant predictor across all non-voter types. This supports **Hypothesis 1**, which posited that apathetic non-voters are less interested in politics than voters. Trust in the national parliament shows a modest effect—primarily for the apathetic group—while trust in the federal council remains insignificant. These findings offer partial support for **Hypothesis 2**, suggesting that protest-oriented non-voters are not simply marked by low trust in government institutions.
 
@@ -557,7 +455,7 @@ kable(
 
 ```
 
-In summary, **Models 1 and 2 provide strong and consistent evidence** for a motivational and socioeconomic explanation of persistent non-voting. **Model 2 performs best**, both in terms of statistical fit and theoretical clarity. Model 3 serves as a robustness extension, but its non-results reinforce the central message: **abstention in Switzerland is driven less by media environments or networks, and more by interest, trust, and structural inequalities.**
+In summary, **Models 1 and 2 provide strong and consistent evidence** for a motivational and socioeconomic explanation of persistent non-voting. **Model 2 performs best**, both in terms of statistical fit and theoretical clarity. Model 3 serves as a robustness extension, but its non-results reinforce the central message: **abstention in Switzerland is less driven by media environments or networks, but more by interest, trust, and structural inequalities.**
 
 # Discussion
 
