@@ -47,14 +47,17 @@ model2_clean <- multinom(
   Hess = TRUE
 )
 
-# Modell 3 NEU: Nur relevante Erweiterungen
-model3_better <- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
-    edu_group + income_cat + job_cat +
-    membership_dummy + discussion_z,  # Mediennutzung entfernt
-  data = df_model,
-  Hess = TRUE
-)
+# Modell: Nur stabile Variablen ohne unknowns
+model3_better <- df_model %>%
+  filter(!edu_group %in% c("unknown"),
+         !income_cat %in% c("unknown"),
+         !job_cat %in% c("unknown")) %>%
+  multinom(
+    vote_group ~ interest_z + trust_parliament_z + trust_council_z +
+      edu_group + income_cat + job_cat + discussion_z,
+    data = .,
+    Hess = TRUE
+  )
 
 # p-Werte berechnen
 z2_clean <- summary(model2_clean)$coefficients / summary(model2_clean)$standard.errors

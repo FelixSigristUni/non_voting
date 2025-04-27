@@ -41,9 +41,9 @@ This paper examines how different types of non-voters in Switzerland can be clas
 
 # Introduction
 
-Although elections are a cornerstone of democratic legitimacy, more than half of the Swiss electorate regularly abstains from voting in federal elections. With turnout consistently below 50 percent since the 1970s [@figure1], abstention has become a structural feature of Swiss democracy [@freitag_labor_2005]. This raises important questions about democratic representation and political inclusion.
+Although elections are a cornerstone of democratic legitimacy, more than half of the Swiss electorate regularly abstains from voting in federal elections. With turnout consistently below 50 percent since the 1970s @fig-voter-turnout, abstention has become a structural feature of Swiss democracy [@freitag_labor_2005]. This raises important questions about democratic representation and political inclusion.
 
-Despite its relevance, the phenomenon of non-voting has long been under explored in Swiss political science. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] noted two decades ago, Swiss electoral research has shown “astonishing restraint” in addressing abstention empirically — even though Switzerland, together with the United States, consistently ranks at the bottom of voter turnout among established democracies [@ostrander_using_2021]. Figure 1 illustrates this trend, showing that turnout in federal elections has remained below the 50 percent mark for over five decades.
+Despite its relevance, the phenomenon of non-voting has long been under explored in Swiss political science. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] noted two decades ago, Swiss electoral research has shown “astonishing restraint” in addressing abstention empirically — even though Switzerland, together with the United States, consistently ranks at the bottom of voter turnout among established democracies [@ostrander_using_2021]. @fig-voter-turnout illustrates this trend, showing that turnout in federal elections has remained below the 50 percent mark for over five decades.
 
 Recent research has increasingly challenged the idea that abstention equals apathy. Typological approaches show that non-voters differ substantially in motivation, political attitudes and structural resources [@fatke_wollen_2015]. Studies on selective participation in Switzerland suggest that while some abstain situationally, others remain constantly disengaged [@dermont_taking_2016].
 
@@ -52,11 +52,11 @@ This study focuses on these **persistent non-voters** — individuals who abstai
 Using data from the SELECTS panel (2019–2023) and drawing on the Civic Voluntarism Model [@ostrander_using_2021], this study applies a multinomial logistic regression to explore how political attitudes, social integration and socioeconomic status explain persistent abstention — and how non-voters differ from the voting population and from each other.
 
 ```{r}
-#| label: voter-turnout
+#| label: "fig-voter-turnout"
 #| echo: false
 #| warning: false
 #| message: false
-#| fig-cap: "Figure 1: Voter turnout in federal elections has remained below 50% since the early 1970s — illustrating the long-term nature of electoral abstention in Switzerland."
+#| fig-cap: "Voter turnout in federal elections has remained below 50% since the early 1970s — illustrating the long-term nature of electoral abstention in Switzerland. Data source: [@noauthor_wahlbeteiligung_nodate]."
 
 library(ggplot2)
 
