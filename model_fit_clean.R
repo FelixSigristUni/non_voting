@@ -39,6 +39,18 @@ df_model <- df_model %>%
     job_cat = factor(job_cat, levels = c("fulltime", "parttime", "other", "unknown"))
   )
 
+# Modell 1: Motivation
+model1 <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z,
+  data = df_model,
+  Hess = TRUE
+)
+
+# Speichern
+saveRDS(model1, "models/model1.rds")
+
+
+
 # Modell 2: Motivation + SES (gruppiert)
 model2_clean <- multinom(
   vote_group ~ interest_z + trust_parliament_z + trust_council_z +
