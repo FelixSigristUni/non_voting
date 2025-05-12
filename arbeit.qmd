@@ -408,7 +408,7 @@ Additionally, the following variables on political communication and integration
 library(nnet)          # multinom()
 
 # Model 1 – Motivation
-model1 <- multinom(
+m1 <- multinom(
   vote_group ~ interest_z + trust_parliament_z + trust_council_z,
   data      = df_model,
   weights   = weight_tot,
@@ -416,7 +416,7 @@ model1 <- multinom(
 )
 
 # Model 2 – Motivation + sozioökonomische Ressourcen
-model2_clean <- multinom(
+m2<- multinom(
   vote_group ~ interest_z + trust_parliament_z + trust_council_z +
     edu_group + income_cat + job_cat,
   data      = df_model,
@@ -437,39 +437,36 @@ model3_better <- multinom(
 ```
 
 
-```{r stargazer-models, echo=FALSE, results='asis'}
-library(stargazer)
+```{r echo=FALSE, results='asis'}
+library(modelsummary)
+library(kableExtra)
 
-# coefficients to keep and their order
-vars <- c("^interest_z$", "^trust_parliament_z$", "^trust_council_z$",
-          "^edu_grouphigh$", "^income_cathigh$",
-          "^job_catparttime$", "^job_catother$")
-
-stargazer(
-  model1, model2_clean,
-  type   = "latex",
-  title  = "Multinomial logit models of persistent non-voting (reference = voters)",
-  label  = "tab:multinom_results",
-
-  # ---- header ------------------------------------------------------
-  column.labels   = rep(c("Apathetic", "Protest", "Satisfied"), 2),
-  column.separate = c(3, 3),      # first 3 cols = Model 1, next 3 = Model 2
-  model.names     = FALSE,
-  dep.var.caption = "",
-  dep.var.labels.include = FALSE,
-
-  keep = vars,
-  covariate.labels = c(
-    "Political interest (z)",
-    "Trust in parliament (z)",
-    "Trust in federal council (z)",
-    "Tertiary education",
-    "High income",
-    "Part-time employment",
-    "Other employment"
-  )
+coef_map <- c(
+  "interest_z"        = "Political interest (z)",
+  "trust_parliament_z"= "Trust in parliament (z)",
+  "trust_council_z"   = "Trust in fed. council (z)",
+  "edu_grouphigh"     = "Tertiary education",
+  "income_cathigh"    = "High income",
+  "job_catparttime"   = "Part-time employment",
+  "job_catother"      = "Other employment"
 )
 
+tbl <- modelsummary(
+  list("Model 1" = m1, "Model 2" = m2),
+  shape    = term ~ model + response,   # 6 Outcome-Spalten
+  coef_map = coef_map,
+  estimate = "{estimate}{stars}",
+  statistic= "({std.error})",
+  fmt      = 2,
+  gof_omit = "IC|Deviance",
+  output   = "kableExtra" 
+)
+
+tbl |>
+  add_header_above(c(" " = 1,
+                     "Model 1 (Motivation)" = 3,
+                     "Model 2 (+ Resources)" = 3)) |>
+  kable_styling(latex_options = "hold_position")
 
 ```
 
