@@ -403,68 +403,79 @@ Additionally, the following variables on political communication and integration
 
 ## Results
 
-```{r load-models-safe, echo=FALSE, message=FALSE, warning=FALSE}
-library(nnet)
+```{r}
+# Multinomial-Modelle neu schätzen ---------------------------------------
+library(nnet)          # multinom()
 
-# Lade Modelle mit Fehlerprüfung
-model1 <- try(readRDS("models/model1.rds"), silent = TRUE)
-model2_clean <- try(readRDS("models/model2_clean.rds"), silent = TRUE)
-model3_better <- try(readRDS("models/model3_better.rds"), silent = TRUE)
-
-# Bei Fehler abbrechen
-if (inherits(model1, "try-error") || !inherits(model1, "multinom")) stop("❌ 'model1' ist kein gültiges Modell.")
-if (inherits(model2_clean, "try-error") || !inherits(model2_clean, "multinom")) stop("❌ 'model2_clean' ist kein gültiges Modell.")
-if (inherits(model3_better, "try-error") || !inherits(model3_better, "multinom")) stop("❌ 'model3_better ist kein gültiges Modell.")
-
-# Z- und P-Werte berechnen
-z1 <- summary(model1)$coefficients / summary(model1)$standard.errors
-p1 <- 2 * (1 - pnorm(abs(z1)))
-
-z2_clean <- summary(model2_clean)$coefficients / summary(model2_clean)$standard.errors
-p2_clean <- 2 * (1 - pnorm(abs(z2_clean)))
-
-z3_better <- summary(model3_better)$coefficients / summary(model3_better)$standard.errors
-p3_better <- 2 * (1 - pnorm(abs(z3_better)))
-
-```
-
-```{r stargazer-wide-fix, echo=FALSE, results='asis'}
-library(stargazer)
-
-cat("\\begin{table}[H]\n\\centering\n\\resizebox{\\textwidth}{!}{%\n")
-
-# Stargazer ohne Float
-stargazer(
-  model1, model2_clean, model3_better,
-  type = "latex",
-  float = FALSE,
-  style = "default",
-  title = "",
-  dep.var.labels = c("Reference category: Voter"),
-  column.labels = c("Model 1", "Model 2 (grouped)", "Model 3 (full)"),
-  covariate.labels = c(
-    "Political Interest", 
-    "Trust in Parliament", 
-    "Trust in Federal Council",
-    "Education: Secondary",
-    "Education: Tertiary",
-    "Income: Mid",
-    "Income: High",
-    "Employment: Part-time",
-    "Employment: Unemployed",
-    "Employment: Retired",
-    "Media Use", 
-    "Party Membership", 
-    "Political Discussion"
-  ),
-  omit.stat = c("ll", "aic", "bic"),
-  no.space = TRUE,
-  star.cutoffs = c(0.05, 0.01, 0.001),
-  notes = c("Robust standard errors in parentheses", "* p < 0.05; ** p < 0.01; *** p < 0.001")
+# Model 1 – Motivation
+model1 <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z,
+  data      = df_model,
+  weights   = weight_tot,
+  na.action = na.exclude
 )
 
-cat("}\n\\caption{Multinomial logistic regression comparing non-voter types with voters as the reference category.}\n\\end{table}")
+# Model 2 – Motivation + sozioökonomische Ressourcen
+model2_clean <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
+    edu_group + income_cat + job_cat,
+  data      = df_model,
+  weights   = weight_tot,
+  na.action = na.exclude
+)
+
+# Model 3 – + Integration & Kommunikation
+model3_better <- multinom(
+  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
+    edu_group + income_cat + job_cat +
+    media_index_z + membership_dummy + discussion_z,
+  data      = df_model,
+  weights   = weight_tot,
+  na.action = na.exclude
+)
+
 ```
+
+
+```{r stargazer-models, echo=FALSE, results='asis'}
+library(stargazer)
+
+# coefficients to keep and their order
+vars <- c("^interest_z$", "^trust_parliament_z$", "^trust_council_z$",
+          "^edu_grouphigh$", "^income_cathigh$",
+          "^job_catparttime$", "^job_catother$")
+
+stargazer(
+  model1, model2_clean,
+  type   = "latex",
+  title  = "Multinomial logit models of persistent non-voting (reference = voters)",
+  label  = "tab:multinom_results",
+
+  # ---- header ------------------------------------------------------
+  column.labels   = rep(c("Apathetic", "Protest", "Satisfied"), 2),
+  column.separate = c(3, 3),      # first 3 cols = Model 1, next 3 = Model 2
+  model.names     = FALSE,
+  dep.var.caption = "",
+  dep.var.labels.include = FALSE,
+
+  keep = vars,
+  covariate.labels = c(
+    "Political interest (z)",
+    "Trust in parliament (z)",
+    "Trust in federal council (z)",
+    "Tertiary education",
+    "High income",
+    "Part-time employment",
+    "Other employment"
+  )
+)
+
+
+```
+
+
+
+
 
 The results from the three multinomial logistic regression models are summarized in Table X (using `stargazer`). The models test a theory-driven typology of non-voters by examining whether motivational, structural, and integrative factors predict group membership relative to consistent voters.
 
