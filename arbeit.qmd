@@ -1,5 +1,5 @@
 ---
-title: "Non-voters in Switzerland"
+title: "Beyond Apathy: Structural and Motivational Drivers of Electoral Abstention"
 subtitle: "A Data Analysis non voting"
 author: 
   - "Felix Sigrist, felix.sigrist@stud.unilu.ch.com, 19-641-968"
@@ -323,17 +323,26 @@ The distribution confirms that **apathetic non-voters** represent the largest gr
 
 ## Methods
 
-o test the proposed hypotheses, we estimate a multinomial logistic regression model. This modeling approach is appropriate for nominal dependent variables with more than two categories. The dependent variable in this analysis is `vote_group`, which consists of four categories: **voters** (reference category), **apathetic**, **protest-oriented**, and **satisfied/alternative** non-voters.
+To test the proposed hypotheses, we estimate a multinomial logistic regression model. This modeling approach is appropriate for nominal dependent variables with more than two categories. The dependent variable in this analysis is `vote_group`, which consists of four categories: **voters** (reference category), **apathetic**, **protest-oriented**, and **satisfied/alternative** non-voters.
+
+The general form of the multinomial logistic regression model is:
+
+$$
+\log\left( \frac{P(Y = k)}{P(Y = \text{Voter})} \right) = \beta_{0k} + \beta_{1k}X_1 + \beta_{2k}X_2 + \dots + \beta_{pk}X_p, \quad \text{for } k \in \{\text{Apathetic, Protest, Satisfied}\}
+$$
+
+Here, \(Y\) denotes the categorical outcome variable (`vote_group`), and the coefficients \(\beta_{ik}\) represent the effect of predictor \(X_i\) on the log-odds of being in category \(k\) compared to the voter reference category.
 
 The analysis is conducted in three steps, each corresponding to a model with increasing complexity:
 
--   **Model 1** includes political interest and political trust — key motivational components from the Civic Voluntarism Model.
--   **Model 2** adds indicators of socioeconomic status: education level, income, and occupational status.
--   **Model 3** further includes variables related to social integration and political communication: media use, organizational membership, and frequency of political discussions.
+- **Model 1** includes political interest and political trust — key motivational components from the Civic Voluntarism Model.
+- **Model 2** adds indicators of socioeconomic status: education level, income, and occupational status.
+- **Model 3** further includes variables related to social integration and political communication: media use, organizational membership, and frequency of political discussions.
 
 All models are estimated using **multinomial logistic regression** with robust standard errors. The interpretation of coefficients is based on **log-odds** relative to the reference category (**voters**). For ease of interpretation, average marginal effects (AMEs) are reported in the results section.
 
 Prior to analysis, all continuous predictors are standardized (mean = 0, sd = 1). Categorical predictors are converted to factors. Missing values are handled using listwise deletion. The final analytical sample consists of 589 cases with a valid `vote_group` classification and complete data on the relevant predictors.
+
 
 ## Variable Operationalization
 
@@ -343,15 +352,26 @@ The independent variables are grouped according to the logic of the Civic Volunt
 
 ### Model 1: Political Motivation
 
--   **Political Interest** (`w3_f10100`): “How interested are you in politics?” (scale: 0–10)
--   **Trust in Parliament** (`w3_f12800a`): “How much do you trust the National Parliament?” (scale: 0–10)
--   **Trust in Federal Council** (`w3_f12800b`): “How much do you trust the Federal Council?” (scale: 0–10)
+The first model captures motivational factors as conceptualized in the Civic Voluntarism Model. It includes attitudinal variables that reflect individuals’ political interest and trust in core democratic institutions:
+
+- **Political Interest** (`w3_f10100`): Self-reported interest in politics on a scale from 0 (not at all interested) to 10 (very interested).
+- **Trust in Parliament** (`w3_f12800a`): Level of trust in the National Parliament (0–10 scale).
+- **Trust in Federal Council** (`w3_f12800b`): Level of trust in the Federal Council (0–10 scale).
+
+All variables are treated as continuous and standardized prior to inclusion in the model.
+
+
 
 ### Model 2: Socioeconomic Resources
 
--   **Education Level** (`w3_f21310`): Highest completed education level (recoded to ordinal scale)
--   **Income** (`w3_f22000_rec`): Monthly household income (recoded, 11 categories)
--   **Employment Status** (`w3_f21000`): Employment situation (e.g. full-time, unemployed, student; recoded to factor)
+The second model introduces structural indicators of socioeconomic status, representing the “resources” dimension of the Civic Voluntarism Model. These variables are operationalized as follows:
+
+- **Education Level** (`w3_f21310`): Highest level of completed education, recoded to an ordinal scale (from compulsory schooling to tertiary education).
+- **Income** (`w3_f22000_rec`): Monthly household income, recoded into 11 ordered categories.
+- **Employment Status** (`w3_f21000`): Employment situation (e.g., full-time, unemployed, student), recoded into a categorical factor.
+
+All predictors are entered as ordinal or categorical variables. This model tests whether socioeconomic disadvantages are associated with persistent abstention.
+
 
 ### Model 3: Social Integration & Political Communication
 
@@ -534,3 +554,6 @@ The analysis shows that political motivation and socioeconomic status are the mo
 The study further demonstrates that media use and social integration, while often emphasized in the literature, do not appear to meaningfully explain persistent abstention in the Swiss case. This suggests that outreach efforts aimed at increasing participation should focus more on improving political efficacy and addressing structural inequalities than on purely communicative interventions.
 
 In sum, this research highlights the importance of distinguishing between different types of non-voters. While some forms of abstention may be normatively benign, others reflect deeper patterns of exclusion. Differentiated engagement strategies—tailored to the needs and constraints of each group—are therefore essential for strengthening democratic participation in Switzerland.
+
+\newpage
+# References
