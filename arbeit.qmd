@@ -993,6 +993,12 @@ class_vars %>%
 
 \newpage
 
+## Declaration of AI Usage
+
+
+Portions of this document were refined and enhanced using AI-assisted language tools to improve clarity, style, and overall readability. AI was also used as a coding help and coding inspiration. The substantive content and analysis remain the original work of the author.
+\newpage
+
 ## R-Code
 ```{r ref.label=knitr::all_labels()}
 #| echo: true
