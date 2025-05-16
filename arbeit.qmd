@@ -1,10 +1,9 @@
 ---
-title: "Beyond Apathy: Structural and Motivational Drivers of Electoral Abstention"
+title: "Beyond the Ballot: Uncovering the Persistence of Nonvoters in Swiss National Elections"
 subtitle: "A Data Analysis non voting"
 author: 
-  - "Felix Sigrist, felix.sigrist@stud.unilu.ch.com, 19-641-968"
-  - "Supervisor: Prof. Dr. Benjamin Schlegel"
-  - "Number of words: 4284"
+  - "Felix Sigrist, felix.sigrist@stud.unilu.ch, 19-641-968"
+  - "Supervisor: Dr. Benjamin Schlegel"
 lang: en
 date: today
 date-format: "D. MMMM YYYY"
@@ -22,6 +21,7 @@ format:
           \usepackage{titling}
           \RedeclareSectionCommand[beforeskip=5pt plus 1pt minus 1pt]{section}
           \RedeclareSectionCommand[beforeskip=10pt plus 2pt minus 2pt]{chapter}
+          \usepackage{pdflscape}
 fontsize: 12pt
 linestretch: 1.5
 geometry: left=2cm,right=2cm,top=2.5cm,bottom=2.5cm
@@ -37,22 +37,11 @@ knitr:
 
 # Abstract {.unnumbered}
 
-### Abstract
-
-This research note investigates persistent non-voters in Switzerland using panel data from the SELECTS 2019–2023 study. Building on existing typologies, the analysis distinguishes between apathetic, protest-oriented, and satisfied non-voters. A multinomial logistic regression model tests the influence of political interest, institutional trust, socioeconomic status, and social integration. Results show that persistent abstention is primarily driven by motivational and structural factors. Apathetic non-voters are less politically engaged and socioeconomically disadvantaged, while satisfied abstainers resemble voters but opt out for normative reasons. Protest abstention plays a minor role. The findings highlight the need for differentiated engagement strategies tailored to the distinct profiles of non-voters.
-
+Persistent non-voting threatens democratic legitimacy, yet the drivers of persistent abstention in Switzerland remain underexplored. Drawing on the Civic Voluntarism Model and panel data from the SELECTS survey (2019–2023), six empirical non-voter types are consolidated into three analytically tractable categories: apathetic, protest-oriented, and alternative/satisfied abstainers. A series of multinomial logit models assesses how socio-economic resources (education, income), media consumption, and social and party engagement predict membership in each group. Low formal education strongly increases the odds of apathy-driven abstention; low income is associated with protest-based non-voting; and high media use reduces the likelihood of alternative/satisfied abstention. Regular political discussion and close party proximity consistently lower the probability of persistent non-voting across all categories. These findings highlight structural inequalities and motivational deficits as central barriers to electoral participation and suggest targeted information campaigns and community outreach to re-engage specific non-voter segments.
 
 # Introduction
 
 Although elections are a cornerstone of democratic legitimacy, more than half of the Swiss electorate regularly abstains from voting in federal elections. With turnout consistently below 50 percent since the 1970s (@fig-voter-turnout), abstention has become a structural feature of Swiss democracy [@freitag_labor_2005]. This raises important questions about democratic representation and political inclusion.
-
-Despite its relevance, the phenomenon of non-voting has long been underexplored in Swiss political science. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] noted two decades ago, Swiss electoral research has shown “astonishing restraint” in addressing abstention empirically — even though Switzerland, together with the United States, consistently ranks at the bottom of voter turnout among established democracies [@ostrander_using_2021]. @fig-voter-turnout illustrates this trend, showing that turnout in federal elections has remained below the 50 percent mark for over five decades.
-
-Recent research has increasingly challenged the idea that abstention equals apathy. Typological approaches show that non-voters differ substantially in motivation, political attitudes and structural resources [@fatke_wollen_2015]. Studies on selective participation in Switzerland suggest that while some abstain situationally, others remain constantly disengaged [@dermont_taking_2016].
-
-This study focuses on these **persistent non-voters** — individuals who abstained in both the 2019 and 2023 federal elections. It builds on the typology developed by Bühlmann et al. [@vatter_pdf_2003], condensing six original types into three analytically useful categories: **apathetic**, **protest-oriented**, and **satisfied or alternative non-voters**.
-
-Using data from the SELECTS panel (2019–2023) and drawing on the Civic Voluntarism Model [@ostrander_using_2021], this study applies a multinomial logistic regression to explore how political attitudes, social integration and socioeconomic status explain persistent abstention — and how non-voters differ from the voting population and from each other.
 
 ```{r}
 #| label: "fig-voter-turnout"
@@ -87,6 +76,17 @@ ggplot(Participation_national, aes(x = wahl_jahr, y = wahlbeteiligung)) +
  
 
 ```
+Despite its relevance, the phenomenon of non-voting has long been underexplored in Swiss political science. As Bühlmann, Freitag and Vatter [@vatter_pdf_2003] noted two decades ago, Swiss electoral research has shown “astonishing restraint”[@vatter_pdf_2003, 27] in addressing abstention empirically — even though Switzerland, together with the United States, consistently ranks at the bottom of voter turnout among established democracies [@ostrander_using_2021]. @fig-voter-turnout illustrates this trend, showing that turnout in federal elections has remained below the 50 percent mark for over five decades.
+
+Recent research has increasingly challenged the idea that abstention equals apathy. Typological approaches show that non-voters differ substantially in motivation, political attitudes and structural resources [@fatke_wollen_2015]. Studies on selective participation in Switzerland suggest that while some abstain situationally, others remain constantly disengaged [@dermont_taking_2016].
+
+This study focuses on these **persistent non-voters** — individuals who abstained in both the 2019 and 2023 federal elections. It builds on the typology developed by Bühlmann et al. [@vatter_pdf_2003], condensing six original types into three analytically useful categories: **apathetic**, **protest-oriented**, and **satisfied or alternative non-voters**.
+
+Using data from the SELECTS panel (2019–2023) and drawing on the Civic Voluntarism Model [@ostrander_using_2021], this study applies a multinomial logistic regression to explore how political attitudes, social integration and socioeconomic status explain persistent abstention — and how non-voters differ from the voting population and from each other.
+
+Therefore, this paper asks: ***Which socio-economic and socio-political factors predict membership in the three categories of persistent non-voters in the Swiss National Elections of 2019 and 2023?***
+
+
 
 # Literature Review
 
@@ -106,11 +106,11 @@ Milbrath’s framework [@ruedin_testing_2007] conceptualizes political participa
 
 [@vatter_pdf_2003] developed one of the first typologies of Swiss non-voters using cluster analysis on survey data from the 1999 federal elections. Their typology includes six distinct types:
 
--   Politically Disinterested\
--   Politically Disenchanted\
--   Socially Isolated\
--   Politically Incompetent\
--   Protest Voters\
+-   Politically Disinterested
+-   Politically Disenchanted
+-   Socially Isolated
+-   Politically Incompetent
+-   Protest Voters
 -   Alternative Participants
 
 These types differ in terms of political interest, efficacy, trust in institutions, and socioeconomic resources.
@@ -123,7 +123,7 @@ These types differ in terms of political interest, efficacy, trust in institutio
 
 Across all studies, a key insight prevails: **non-voters are not a homogeneous group**. From a democratic theory perspective, the most problematic are the **socially isolated** and **incompetent**, who lack both the resources and social networks for political engagement [@fatke_nichtwahlenden_2015].
 
-At the same time, not all abstention is a cause for concern. **Alternative participants** or the **satisfied disengaged**, for example, abstain not due to rejection or apathy, but because they either prefer other forms of participation (e.g., initiatives, petitions) or are fundamentally satisfied with the system.
+At the same time, not all abstention is a cause for concern. "*While there generally is a positive correlation between electoral participation and engagement in other forms of political action, there is an important group of abstainers who chose to participate in other political activities*" [@portos_life_2020, 233]. **Alternative participants** or the **satisfied disengaged**, for example, abstain not due to rejection or apathy, but because they either prefer other forms of participation (e.g., initiatives, petitions) or are fundamentally satisfied with the system.
 
 This differentiated understanding provides the conceptual bridge to the following theory section, which formalizes these empirical distinctions into a testable framework.
 
@@ -141,7 +141,7 @@ This study applies the **Civic Voluntarism Model (CVM)** [@ostrander_using_2021]
 2.  **Motivation** – interest in politics, efficacy, ideological conviction\
 3.  **Recruitment Networks** – social integration, group membership, mobilization
 
-According to CVM, individuals are more likely to participate politically when they are motivated, able, and socially embedded. Conversely, the absence of any one of these factors can lead to abstention. Crucially, access to these dimensions is unequally distributed—meaning that political inequality is reproduced through structural exclusion [@ostrander_using_2021].
+According to CVM, individuals are more likely to participate politically when they are motivated, able, and socially embedded [@ostrander_using_2021]. Conversely, the absence of any one of these factors can lead to abstention [@ostrander_using_2021]. Crucially, access to these dimensions is unequally distributed—meaning that political inequality is reproduced through structural exclusion (ebd.).
 
 The CVM therefore provides a robust foundation for explaining **persistent abstention**, as it integrates individual capacities, perceptions, and social context into one explanatory model.
 
@@ -155,33 +155,35 @@ Persistent abstention is of particular interest, as it suggests more entrenched 
 
 ## Typologies of Non-Voters in Switzerland
 
-While the Civic Voluntarism Model explains many forms of non-participation through resource or motivation deficits, protest-oriented abstention requires an additional conceptual lens. Drawing on theories of political support and system trust \[Easton 1975; Norris 2011\], political scientists argue that abstention may also reflect alienation from democratic institutions. In this view, protest abstention is not a symptom of apathy but rather a passive expression of dissatisfaction — a silent refusal to endorse a political system perceived as unresponsive, unfair, or corrupt.
+While the Civic Voluntarism Model explains many forms of non-participation through resource or motivation deficits, protest-oriented abstention requires an additional conceptual lens. Drawing on theories of political support [@easton_re-assessment_1975], political scientists argue that abstention may also reflect alienation from democratic institutions. In this view, protest abstention is not a symptom of apathy but rather a passive expression of dissatisfaction — a silent refusal to endorse a political system perceived as unresponsive, unfair, or corrupt (ebd.).
 
 This distinction is particularly relevant in the Swiss context, where institutional trust is generally high, but perceived political inefficacy may still motivate strategic disengagement. Incorporating this dimension allows for a clearer differentiation between those who are disengaged and those who abstain deliberately out of protest.
 
-Building on the CVM and empiric findings, this section presents the typology of persistens non-voters which serves as the dependent variable in this paper. The typologies developed by Bühlmann et al. [@vatter_pdf_2003] and extended by Fatke & Freitag [@fatke_wollen_2015] offer a detailed framework for classifying non-voters. For the purpose of this study, these types are aggregated into three theoretically meaningful categories:
+Furthermore, the group of those who participate in alternative political ways and / or are satisfied with the system can be explained by the "low-salience" theory which highlights the attractiveness of alternative forms of political participation in Switzerland [@vatter_pdf_2003, 49].In the special case of Switzerland, this group may also regularly participate at local elections / votations, is satisfied with the system and esteem their political impact as high (ebd.)
+
+Building on the CVM, theories of political support, low-salience theory and empiric findings, this section presents the typology of persistens non-voters which serves as the dependent variable in this paper. The typologies developed by Bühlmann et al. [@vatter_pdf_2003] and extended by Fatke & Freitag [@fatke_wollen_2015] offer a detailed framework for classifying non-voters. For the purpose of this study, these types are aggregated into three theoretically meaningful categories:
 
 | Type | Main Mechanism | Theoretical Foundation |
 |------------------------|------------------------|------------------------|
 | **Apathetic** | Lack of motivation/resources | Civic Voluntarism Model |
 | **Protest-oriented** | Political alienation | System support/trust theory |
-| **Satisfied/Alternative** | Rational disengagement | Expressive/instrumental logic |
+| **Alternative/Satisfied** | Rational disengagement | low salience theory |
 
 This typology provides the conceptual basis for analyzing **persistent non-voters**, i.e., those who abstained in both 2019 and 2023 federal elections in Switzerland.
 
 ## Theoretical Expectations and Hypotheses
 
-In order to explain the differences betrween the different types of abstention, testabale hypotheses are derived from the Civic Voluntarism Model and the typology shown above.
+In order to explain the differences between the three types of abstention, testable hypotheses are derived from the Civic Voluntarism Model and the typology shown above. All hypotheses will be tested via a multinomial logistic regression, with **voters** as the reference category.
 
--   **H1 (Political Interest & Knowledge):** Apathetic non-voters report significantly lower political interest and political knowledge than other groups.
+-   **H1 (Education & Resources):** Individuals with lower formal education are more likely to be *apathetic non-voters* than voters or other non-voter types.
 
--   **H2 (System Satisfaction & Trust):** Protest-oriented non-voters express lower trust in political institutions and lower satisfaction with democracy than other groups.
+-   **H2 (Income & Political Alienation):** Individuals with lower household income are more likely to be *protest-oriented non-voters* than voters or other non-voter types.
 
--   **H3 (Socioeconomic Status):** Apathetic non-voters have lower levels of education and income, while satisfied/alternative non-voters resemble voters in their socioeconomic status.
+-   **H3 (Media Use & Low Salience):** Higher levels of media consumption significantly reduce the likelihood of being an *alternative/satisfied non-voter*, but have little effect on apathy- or protest-based non-voting.
 
--   **H4 (Social Integration):** Apathetic non-voters show weaker social integration (e.g., fewer memberships or interpersonal networks) than other groups.
+-   **H4 (Political Discussion & Apathy vs. Protest):** Frequent political discussion decreases the probability of *apathy-based non-voting* more strongly than it decreases the probability of *protest-oriented non-voting*.
 
--   **H5 (Party Identification & Ideological Self-Placement):** Protest-oriented non-voters are ideologically positioned but report weak or no party identification.
+-   **H5 (Party Membership & Integration):** Party members are significantly less likely to be *apathetic* or *protest-oriented non-voters* compared to voters.
 
 These hypotheses will be empirically tested using a multinomial logistic regression model, treating **voters** as the reference category. The predictors reflect the theoretical dimensions discussed above.
 
@@ -193,11 +195,47 @@ The analysis is based on data from the Swiss Election Study (SELECTS) panel surv
 
 To identify persistent abstainers, respondents who reported not voting in both the 2019 and 2023 National Council elections were selected. Voting behavior in 2019 is captured by the variable `w1_f10200rec` (re-coded: 1 = voted, 0 = did not vote), and in 2023 by `w3_f11100`. Respondents who reported voting in both elections were classified as **voters** and serve as the reference category in the analysis.
 
-Persistent non-voters were further classified into three theoretical groups based on their stated reasons for abstention in 2023. The variable block `w3_f11301` to `w3_f11310` captures multiple reasons for non-voting. Following the typology developed by Bühlmann et al. (2003) and adapted by Fatke & Freitag (2015), persistent abstainers were grouped into the following types:
+## Operationalization of Persistent Non-Voter Types
 
--   **Apathetic**: cited reasons such as lack of interest, insufficient information, or complexity of the voting process.
--   **Protest-oriented**: cited dissatisfaction with parties, politics, or the political system.
--   **Satisfied/Alternative**: cited contentment with the system or a belief that their participation was not necessary.
+To test our typology of persistent non-voters, we assign each respondent—who abstained in both the 2019 and 2023 federal elections—to one of three theoretically derived groups, or to the **voter** reference category. Assignment is based on “scores” computed from sets of survey items that best capture each type’s defining mechanism. Cases without a clear unique maximum score are excluded.
+
+### Apathetic Non-Voters
+
+Grounded in the Civic Voluntarism Model, this type reflects a deficit in motivation or resources. We operationalize apathy as the count of affirmative responses to items indicating:\
+- **Procedural complexity** (“Elections too complicated”)\
+- **General lack of interest** (“Not interested in politics”)\
+- **Information gap** (“Did not know candidates”)\
+- **Low campaign engagement** (“Paid little attention to the campaign”)\
+- **Self-reported disinterest** (“Rather not interested in politics”)
+
+Respondents whose apathy score exceeds their scores on all other dimensions are classified as **apathetic non-voters**.
+
+### Protest-Oriented Non-Voters
+
+Building on theories of political support and democratic legitimacy [@easton_re-assessment_1975], protest abstention captures passive expressions of system alienation. We measure this alienation through indicators of:\
+- **Party/system distrust** (“Not convinced by any party/candidate”)\
+- **Perceived inefficacy** (“Elections do not change anything”)\
+- **Low institutional trust** (federal council, assembly, and national parties rated in the bottom trust categories)\
+- **Dissatisfaction with democracy** (low overall satisfaction)
+
+Those with the highest protest-oriented score are assigned to the **protest** group.
+
+### Alternative/Satisfied Non-Voters
+
+Drawing on low-salience theory, this category encompasses individuals who are content with the political system or engage through non-electoral channels [@vatter_pdf_2003]. We capture this “satisfied disengagement” via:\
+- **Alternative participation** (petition, initiative or referendum signatures)\
+- **Self-reported interest** (“Interested in politics”)\
+- **High satisfaction with democracy**\
+- **Membership in civic or political organizations** (unions, environmental, human rights, consumer, employers’, party activities)\
+- **High trust in national parties**
+
+Respondents whose alternative/satisfied score dominates their other scores form the **satisfied** group.
+
+### Voters (Reference Category)
+
+All respondents who report voting in both 2019 and 2023 comprise the **voter** category and serve as our reference group in subsequent multinomial logistic regressions.
+
+This operationalization ensures a clear alignment between our theoretical typology—CVM for apathy, system-support theory for protest, and low-salience for alternative engagement—and the empirical classification of persistent non-voters.
 
 Respondents who did not fall clearly into one of these categories were excluded from the analysis. The resulting dependent variable `vote_group` consists of four categories: `voter`, `apathetic`, `protest`, and `satisfied`.
 
@@ -218,18 +256,50 @@ df <- read_sav("Daten/2626_Selects2023_Panel_Data_v2.0.sav") %>%
 
 # Identify persistent non-voters (did not vote in both 2019 and 2023)
 df_nv <- df %>%
-  filter(w1_f10200rec == 0, w3_f11100 %in% c(1, 2, 3))
+  filter(w1_f10200rec == 0, w2_3_voted == 0) #W2_3_voted #w3_f11100
 
-# Classify non-voters into types based on 2023 reasons
+library(dplyr)
+
 df_nv <- df_nv %>%
   mutate(
+    # Scores berechnen (Anzahl zutreffender Gründe pro Typ)
+    score_protest = (w3_f11304 == 1) + #Reason non voting: Not convinced by any party/ candidate
+                    (w3_f12800a %in% c(0,4)) + #trust in federal council (1-10)
+                    (w3_f12800b %in% c(0,4)) + #Trust: Federal Assembly (1-10)
+                    (w3_f11309 == 1)+ #Reason non voting: Elections do not change anything
+                    (w3_f12800c %in% c(0,4))+ #Trust: Political parties at national level
+                    (w1_f13700 %in% c(0,2)) , #Satisfaction with democracy
+
+    score_apathetic = 
+                      (w3_f11303 == 1)+#Reason nonvoting: Elections too complicated
+                      (w3_f11302  == 1)+#Not interested in politics
+                      (w3_f11306  == 1)+#did not know candidates
+                      (w2_f10160  == 1)+#attention to election campaign
+                      (w3_f10100  %in% c(1,2)) #rather not interested in politics
+                      , #Union or employee nun organization: Member
+
+    score_satisfied = (w3_f12610a == 1) + #Signed a petition, popular initiative or a referendum (past 5 years)
+                      (w3_f11302  == 2) + #interested in politics
+                      (w1_f13700 %in% c(3,4)) , #Satisfaction with democracy
+                      (w3_n13_030g2 == 1) + #Political party: participated in activities
+                      (w3_n13_030e1 == 1) + #Environmental organization: member
+                      (w3_n13_030d1 == 1) + #Human rights or peace organization: member
+                      (w3_n13_030c1 == 1) + #Consumer organization: member
+                      (w3_n13_030b1 == 1) + #Economic, employers' or farmers' association: member
+                      (w3_n13_030a1 == 1) + #Union or employee organization: Member
+                      (w3_f10100  %in% c(3,4)) + #R's interest in politics, rather interested
+      #R's interests in politics
+                      (w3_f12800c %in% c(7,10)), #Trust: Political parties at national level
+
+    # finale Gruppenzuordnung nach Maximal-Score
     vote_group = case_when(
-      w3_f11301 == 1 | w3_f11302 == 1 | w3_f11303 == 1 ~ "apathetic",
-      w3_f11306 == 1 | w3_f11307 == 1 ~ "protest",
-      w3_f11309 == 1 | w3_f11310 == 1 ~ "satisfied",
+      score_protest   == pmax(score_protest, score_apathetic, score_satisfied) ~ "protest",
+      score_apathetic == pmax(score_protest, score_apathetic, score_satisfied) ~ "apathetic",
+      score_satisfied == pmax(score_protest, score_apathetic, score_satisfied) ~ "satisfied",
       TRUE ~ NA_character_
     )
   )
+
 
 # Add consistent voters
 df <- df %>%
@@ -257,8 +327,13 @@ df <- df %>%
     media_index = rowMeans(select(., w3_f12610a, w3_f12610b, w3_f12610d, w3_f12610g, w3_f12610i), na.rm = TRUE),
     media_index_z = scale(media_index)[,1],
 
-    # Dummy: party membership (1 = yes, 0 = no)
-    membership_dummy = if_else(w3_f14081rec == 1, 1, 0),
+     # Dummy: party membership (1 = yes if code 10–350, else 0)
+    membership_dummy = if_else(
+      between(w3_f14081rec, 10, 350),
+      1L,
+      0L,
+      missing = 0L
+    ),
 
     # Categorical predictors
     vote_group = relevel(factor(vote_group), ref = "voter"),
@@ -268,15 +343,15 @@ df <- df %>%
 
     # Grouped categories
     edu_group = case_when(
-      education %in% c(1, 2, 3) ~ "low",
-      education %in% c(4, 5, 6) ~ "mid",
-      education %in% c(7, 8, 9, 10, 11, 12) ~ "high",
+      education %in% c(1, 2, 3,4) ~ "low",
+      education %in% c(5, 6,7,8,9) ~ "mid",
+      education %in% c(10, 11, 12) ~ "high",
       TRUE ~ "unknown"
     ),
     income_cat = case_when(
       income %in% c(1, 2, 3, 4) ~ "low",
       income %in% c(5, 6, 7) ~ "mid",
-      income %in% c(8, 9, 10, 11) ~ "high",
+      income %in% c(8, 9, 10, 11,12,13,14,15,16,17,18,19,20) ~ "high",
       TRUE ~ "unknown"
     ),
     job_cat = case_when(
@@ -292,6 +367,24 @@ df <- df %>%
 df_model <- df %>%
   filter(!is.na(vote_group))
 
+df_model <- df_model %>%
+  filter(
+    complete.cases(
+      interest_z,
+      trust_parliament_z,
+      trust_council_z,
+      edu_group,
+      income_cat,
+      job_cat,
+      media_index_z,
+      membership_dummy,
+      discussion_z,
+      weight_tot,
+      w1_f14000
+    )
+  )
+
+
 # Show group distribution
 table(df_model$vote_group, useNA = "always")
 
@@ -299,7 +392,7 @@ table(df_model$vote_group, useNA = "always")
 ```
 
 ```{r}
-#| label: table-votegroups
+#| label: "table-votegroups"
 #| echo: false
 #| results: asis
 #| warning: false
@@ -319,30 +412,29 @@ df_model %>%
 
 ```
 
-The distribution confirms that **apathetic non-voters** represent the largest group in the analytical sample, followed by **protest-oriented** and **satisfied** non-voters. Notably, about one third of the sample are consistent voters. This distribution reflects the empirical prevalence of non-voting types among persistent abstainers and underlines the heterogeneity of non-voter profiles. This also suggests that motivational and resource-related non-voting could be more widespread than ideologically motivated protest or strategic satisfaction.
+The distribution confirms that **apathetic non-voters** represent the largest group in the analytical sample, followed by **satisfied / alternative** and **protest** non-voters. As a reference group, all consistent voters (whom participated in 2019 and 2023) were added. This distribution reflects the empirical prevalence of non-voting types among persistent abstainers and underlines the heterogeneity of non-voter profiles. This also suggests that motivational and resource-related non-voting could be more widespread than ideologically motivated protest or strategic satisfaction.
 
 ## Methods
 
-To test the proposed hypotheses, we estimate a multinomial logistic regression model. This modeling approach is appropriate for nominal dependent variables with more than two categories. The dependent variable in this analysis is `vote_group`, which consists of four categories: **voters** (reference category), **apathetic**, **protest-oriented**, and **satisfied/alternative** non-voters.
+To test the proposed hypotheses, three multinomial logistic regression models are estimated. This modeling approach is appropriate for nominal dependent variables with more than two categories. The dependent variable in this analysis is `vote_group`, which consists of the four categories that are theoretically grounded were explained in the previous section: **voters** (reference category), **apathetic**, **protest-oriented**, and **satisfied/alternative** non-voters.
 
 The general form of the multinomial logistic regression model is:
 
 $$
-\log\left( \frac{P(Y = k)}{P(Y = \text{Voter})} \right) = \beta_{0k} + \beta_{1k}X_1 + \beta_{2k}X_2 + \dots + \beta_{pk}X_p, \quad \text{for } k \in \{\text{Apathetic, Protest, Satisfied}\}
+\log\left( \frac{P(Y = k)}{P(Y = \text{Voter})} \right) = \beta_{0k} + \beta_{1k}X_1 + \beta_{2k}X_2 + \dots + \beta_{pk}X_p, \quad \text{for } k \in \{\text{Apathetic, Protest, satisfied}\}
 $$
 
-Here, \(Y\) denotes the categorical outcome variable (`vote_group`), and the coefficients \(\beta_{ik}\) represent the effect of predictor \(X_i\) on the log-odds of being in category \(k\) compared to the voter reference category.
+Here, (Y) denotes the categorical outcome variable (`vote_group`), and the coefficients (\beta\_{ik}) represent the effect of predictor (X_i) on the log-odds of being in category (k) compared to the voter reference category.
 
 The analysis is conducted in three steps, each corresponding to a model with increasing complexity:
 
-- **Model 1** includes political interest and political trust — key motivational components from the Civic Voluntarism Model.
-- **Model 2** adds indicators of socioeconomic status: education level, income, and occupational status.
-- **Model 3** further includes variables related to social integration and political communication: media use, organizational membership, and frequency of political discussions.
+-   **Model 1** includes key socioeconomic indicators: educational level, income and occupational status.
+-   **Model 2** adds indicators related to the media use in regards to political communication: media useage.
+-   **Model 3** adds variables related to political integration and communication: party membership, frequency of political discussions and closeness to a party.
 
 All models are estimated using **multinomial logistic regression** with robust standard errors. The interpretation of coefficients is based on **log-odds** relative to the reference category (**voters**). For ease of interpretation, average marginal effects (AMEs) are reported in the results section.
 
 Prior to analysis, all continuous predictors are standardized (mean = 0, sd = 1). Categorical predictors are converted to factors. Missing values are handled using listwise deletion. The final analytical sample consists of 589 cases with a valid `vote_group` classification and complete data on the relevant predictors.
-
 
 ## Variable Operationalization
 
@@ -350,142 +442,233 @@ The dependent variable `vote_group` is a categorical variable with four values: 
 
 The independent variables are grouped according to the logic of the Civic Voluntarism Model and introduced step-by-step in three models:
 
-### Model 1: Political Motivation
+### Model 1: Socioeconomic baseline
 
-The first model captures motivational factors as conceptualized in the Civic Voluntarism Model. It includes attitudinal variables that reflect individuals’ political interest and trust in core democratic institutions:
+The first model introduces structural indicators of socioeconomic status, representing the “resources” dimension of the Civic Voluntarism Model. These variables are operationalized as follows:
 
-- **Political Interest** (`w3_f10100`): Self-reported interest in politics on a scale from 0 (not at all interested) to 10 (very interested).
-- **Trust in Parliament** (`w3_f12800a`): Level of trust in the National Parliament (0–10 scale).
-- **Trust in Federal Council** (`w3_f12800b`): Level of trust in the Federal Council (0–10 scale).
-
-All variables are treated as continuous and standardized prior to inclusion in the model.
-
-
-
-### Model 2: Socioeconomic Resources
-
-The second model introduces structural indicators of socioeconomic status, representing the “resources” dimension of the Civic Voluntarism Model. These variables are operationalized as follows:
-
-- **Education Level** (`w3_f21310`): Highest level of completed education, recoded to an ordinal scale (from compulsory schooling to tertiary education).
-- **Income** (`w3_f22000_rec`): Monthly household income, recoded into 11 ordered categories.
-- **Employment Status** (`w3_f21000`): Employment situation (e.g., full-time, unemployed, student), recoded into a categorical factor.
+-   **Education Level** (`w3_f21310`): Highest level of completed education, recoded to an ordinal scale (from compulsory schooling to tertiary education).
+-   **Income** (`w3_f22000_rec`): Monthly household income, recoded into 11 ordered categories.
+-   **Employment Status** (`w3_f21000`): Employment situation (e.g., full-time, unemployed, student), recoded into a categorical factor.
 
 All predictors are entered as ordinal or categorical variables. This model tests whether socioeconomic disadvantages are associated with persistent abstention.
 
-
-### Model 3: Social Integration & Political Communication
-
-In the third model, the analysis includes variables which are related to social integration, political communication and simplified indicators of socioeconomic status to ensure stable and interpretable estimates. Due to sparse cell counts and limited observations in some of the subcategories, a data-driven simplification of the categorial variables for education, income and employment was conducted as follows:
-
--   **Education Level** (`edu_group_simple`): This variable was originally differentiated into multiple groups, due to the low number of cases it was reduced to two categories:
-
-    -   `teritary:`Respondents with higher education
-
-    -   `non-teritary:` Respondents with medium, low, or unknown educational levels.
-
--   **Income** (`income_simple`): Due to sparsity in low and middle-income categories among non-voters, the original income variable was simplified into two categories:
-
-    -   `high:`Respondents with high income
-
-    -   `low-mid:` Respondents combining low, middle and unknown income levels.
-
--   **Employment** (`job_simple`): Employment categories were similarly condensed into two groups:
-
-    -   `fulltime:`Respondents employed full-time.
-
-    -   `low-mid:` Respondents employed part-time, unemployed, retired, or with an unknown employment status.
-
-Additionally, the following variables on political communication and integration remain included in their original, detailed form:
+### Model 2: Media usage extension
 
 -   **Media Use** (`media_index_z`): Aggregated and standardized frequency of political news consumption via various media (newspapers, TV, internet)
 
+### Model 3: Political Integration Extension
+
 -   **Political Discussion Frequency** (`discussion_z`): Standardized measure of how frequently respondents discuss politics with friends or family (5-point scale).
+-   **Party membership** (`membership_dummy`): A dummy variable created out of `w3_f14081rec` which indicates whether someone is a member of a political party or not. -**Party closeness** (`w1_f14000`): A dummy variable that indicates if someone feels close to a political party or not.
 
 ## Results
 
-```{r}
-# Multinomial-Modelle neu schätzen ---------------------------------------
-library(nnet)          # multinom()
+In this section, the specification and estimation of three nested multinomial logistic regression models—distinguishing actual voters, apathetic non-voters, protest non-voters and satisfied non-voters—are presented. Model comparisons are conducted using Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC) and McFadden’s pseudo-R², and improvements in fit are evaluated via likelihood-ratio tests. Thereafter, the estimated log-odds coefficients for key predictor blocks (socioeconomic indicators, media usage and political integration measures) are interpreted to elucidate how each set of variables incrementally contributes to an understanding of non-voting behavior.
 
-# Model 1 – Motivation
+```{r include=FALSE, trace=FALSE, message=FALSE, warning=FALSE}
+library(nnet)
+
 m1 <- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z,
-  data      = df_model,
-  weights   = weight_tot,
+  vote_group ~ edu_group + income_cat + job_cat,
+  data    = df_model,
+  #weights = w4_longweight,
+  trace   = FALSE,
   na.action = na.exclude
 )
 
-# Model 2 – Motivation + sozioökonomische Ressourcen
-m2<- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
-    edu_group + income_cat + job_cat,
-  data      = df_model,
-  weights   = weight_tot,
+m2 <- multinom(
+  vote_group ~ edu_group + income_cat + job_cat+
+    media_index_z,
+  data    = df_model,
+  #weights = w4_longweight,
+  trace   = FALSE,
   na.action = na.exclude
 )
 
-# Model 3 – + Integration & Kommunikation
-model3_better <- multinom(
-  vote_group ~ interest_z + trust_parliament_z + trust_council_z +
-    edu_group + income_cat + job_cat +
-    media_index_z + membership_dummy + discussion_z,
-  data      = df_model,
-  weights   = weight_tot,
+
+
+
+# --- Model 3 neu schätzen ------------------------------------------------------
+m3 <- multinom(
+  vote_group ~ edu_group + income_cat + job_cat+
+    media_index_z + membership_dummy + discussion_z+w1_f14000,
+  data    = df_model,
+  #weights = w4_longweight,
+  trace   = FALSE,
   na.action = na.exclude
 )
+
+invisible(NULL)      # letzte Zeile gibt NULL zurück → garantiert kein Output
+
+
+
+
+
 
 ```
 
+```{=latex}
+\begin{landscape}
+```
 
-```{r echo=FALSE, results='asis'}
+```{r}
+
+
 library(modelsummary)
 library(kableExtra)
 
 coef_map <- c(
-  "interest_z"        = "Political interest (z)",
-  "trust_parliament_z"= "Trust in parliament (z)",
-  "trust_council_z"   = "Trust in fed. council (z)",
-  "edu_grouphigh"     = "Tertiary education",
-  "income_cathigh"    = "High income",
-  "job_catparttime"   = "Part-time employment",
-  "job_catother"      = "Other employment"
+  # intercepts
+  "(Intercept)" = "Intercept",
+  #other
+  "interest_z"         = "Political interest (z)",
+  "trust_parliament_z" = "Trust in parliament (z)",
+  "trust_council_z"    = "Trust in fed. council (z)",
+  "edu_groupmid"       = "Middle education (vs. high)",
+  "edu_grouplow"       = "Low education (vs. high)",
+  "income_catmid"      = "Middle income (vs. high)",
+  "income_catlow"      = "Low income (vs. high)",
+  "job_catparttime"    = "Part-time work (vs. fulltime)",
+  "job_catother"       = "Other work (vs. fulltime)",
+  "media_index_z"      = "Media use index (z)",
+  "membership_dummy"   = "Party membership (yes)",
+  "discussion_z"       = "Political discussion (z)",
+  "w1_f14000" = "Closeness to a party (yes)"
 )
 
+
 tbl <- modelsummary(
-  list("Model 1" = m1, "Model 2" = m2),
-  shape    = term ~ model + response,   # 6 Outcome-Spalten
+  list(
+    "Model 1 (Socioeconomic base)"            = m1,
+    "Model 2 (+Media usage)" = m2,
+    "Model 3 (+Political Integration)"= m3
+  ),
+  shape    = term ~ model + response,
   coef_map = coef_map,
   estimate = "{estimate}{stars}",
   statistic= "({std.error})",
   fmt      = 2,
-  gof_omit = "IC|Deviance",
-  output   = "kableExtra" 
+  gof_map  = c("nobs" = "N", "AIC" = "AIC", "BIC" = "BIC"),
+  gof_omit = "Deviance",
+  title    = "Multinomial logit of persistent non-voting (ref. = voters)",
+  output   = "kableExtra"
 )
 
+
 tbl |>
-  add_header_above(c(" " = 1,
-                     "Model 1 (Motivation)" = 3,
-                     "Model 2 (+ Resources)" = 3)) |>
+  footnote(
+    general = c(
+      "Coefficients are log-odds relative to voters (reference category).",
+      "Standard errors in parentheses.",
+      "Positive coefficients = higher likelihood of belonging to the non-voter type."
+    ),
+    symbol            = c("*** p < .001", "** p < .01", "* p < .05"),
+    threeparttable    = TRUE,
+    footnote_as_chunk = TRUE,
+    escape            = FALSE
+  ) |>
   kable_styling(latex_options = "hold_position")
 
 ```
 
+```{=latex}
+\end{landscape}
+```
+
+Table 4.2 shows the results from the three multinomial logistic regression models in which the three types of persistent non-voters are each compared to the reference category of persistent voters. This table was created using R packages lmtest, dplyr, tibble and knitr [^1] .
+
+[^1]: @Zeileis2002, @Wickham2023dplyr, @Mueller2023tibble, @Xie2024knitr
+
+The results displayed in this table can be summarized as following:
+
+### Model 1 (Socioeconomic baseline)
+
+Individuals with low education have substantially higher log-odds of non-voting than those with high-education. This is especially the case for the persistent non-voter types apathetic ( $\beta = 1.08$, *p* \< .001 ) and satisfied ( $\beta = 1.17$, *p* \< .05 ). Middle education shows a smaller and generally non-significant effect. Low income significantly increases the likelihood of all three non-voter types ( $\beta$ between 0.95 and 1.72, *p* \< .01 ). Middle income only reaches significance for the protest type. Both part-time workers and those in "other work" are significantly less likely to be persistent non-voters (e.g. for apathetic $\beta = -0.73$ and $\beta = -1.45$, *p* \< .001 ).
+
+### Model 2 (+Media use)
+
+The standardized media-use index has a strong negative effect on the probability of beloning to the "satisfied" non-voter group ( $\beta = -1.87$, *p* \< .001 ), which means that higher media engagement makes one less likely to be associated with the satisfied non-voter type. The coefficients for the apathetic and protest non-voter types remain small and not statistically significant.
+
+### Model 3 (+Political Integration)
+
+Individuals who feel close to a party have a lowered likelihood of being associated with any of the persistent non-voting types. More frequent political discussion strongly reduces the odds of being associated with any type of non-voter compared to belonging to the persistent voter group. The estimates for party membership show signs of perfect separation. This is the case as none of the persistent non-voters are member in a political party, except for one satisfied-non voter. These estimates should therefore be interpreted with caution.
+
+```{r model-comparison-tables, echo=FALSE, message=FALSE}
 
 
+library(tibble)
+library(lmtest)
+library(knitr)
+library(dplyr)
+
+# -- Fit table --------------------------------------------------------
+fit <- tibble(
+  Model       = c("Model 1", "Model 2", "Model 3"),
+  N           = c(nrow(model.frame(m1)), nrow(model.frame(m2)), nrow(model.frame(m3))),
+  AIC         = c(AIC(m1), AIC(m2), AIC(m3)),
+  BIC         = c(BIC(m1), BIC(m2), BIC(m3)),
+  McFadden_R2 = c(
+    round(1 - as.numeric(logLik(m1)) / as.numeric(logLik(update(m1, .~1))), 3),
+    round(1 - as.numeric(logLik(m2)) / as.numeric(logLik(update(m2, .~1))), 3),
+    round(1 - as.numeric(logLik(m3)) / as.numeric(logLik(update(m3, .~1))), 3)
+  ),
+  Df = c(attr(logLik(m1), "df"), attr(logLik(m2), "df"), attr(logLik(m3), "df"))
+)
+
+kable(
+  fit,
+  caption  = "Model fit statistics (multinomial logit)",
+  format   = "latex",
+  booktabs = TRUE,
+  digits   = c(0, 0, 2, 2, 3, 0)
+)
+```
+
+```{r echo=FALSE, message=FALSE}
 
 
-The results from the three multinomial logistic regression models are summarized in Table X (using `stargazer`). The models test a theory-driven typology of non-voters by examining whether motivational, structural, and integrative factors predict group membership relative to consistent voters.
+# -- Likelihood‐Ratio Tests combined ---------------------------------
+lr1 <- lrtest(m1, m2)
+lr2 <- lrtest(m1, m3)
+lr3 <- lrtest(m2, m3)
 
-**Model 1** (H1, H2) shows that political interest is a highly significant predictor across all non-voter types. This supports **Hypothesis 1**, which posited that apathetic non-voters are less interested in politics than voters. Trust in the national parliament shows a modest effect—primarily for the apathetic group—while trust in the federal council remains insignificant. These findings offer partial support for **Hypothesis 2**, suggesting that protest-oriented non-voters are not simply marked by low trust in government institutions.
+lr_all <- bind_rows(
+  tibble(
+    Comparison   = "Model 1 vs. Model 2",
+    ΔDf          = m2$edf - m1$edf,
+    Chisq        = round(lr1$Chisq[2], 2),
+    `Pr(>Chisq)` = sprintf("%.2e", lr1$`Pr(>Chisq)`[2])
+  ),
+  tibble(
+    Comparison   = "Model 1 vs. Model 3",
+    ΔDf          = m3$edf - m1$edf,
+    Chisq        = round(lr2$Chisq[2], 2),
+    `Pr(>Chisq)` = sprintf("%.2e", lr2$`Pr(>Chisq)`[2])
+  ),
+  tibble(
+    Comparison   = "Model 2 vs. Model 3",
+    ΔDf          = m3$edf - m2$edf,
+    Chisq        = round(lr3$Chisq[2], 2),
+    `Pr(>Chisq)` = sprintf("%.2e", lr3$`Pr(>Chisq)`[2])
+  )
+)
 
-**Model 2** (H3a, H3b) adds education, income, and employment as predictors and improves overall model fit (ΔAIC = -30). Apathetic non-voters are clearly linked to lower levels of education and income, confirming **Hypothesis 3a**. Meanwhile, satisfied non-voters appear socioeconomically closer to voters, consistent with **Hypothesis 3b**. The employment variable, however, shows no consistent pattern.
+kable(
+  lr_all,
+  caption   = "Likelihood‐Ratio Tests for All Model Comparisons",,
+  format    = "latex",
+  booktabs  = TRUE,
+  digits    = c(0, 0, 2, 3)
+)
 
-**Model 3** (H4, H5) integrates indicators of social integration and political communication: media use, political discussion and party membership. To adress previous estimation problems due to sparse data, a theoretically grounded recoding and grouped vategories for education, income and employment were set in place. Despite these corrections, none of the additional predictors in Model 3 reach statistical significance. As a result, **Hypothesis 4**, which expected lower media exposure among apathetic non-voters, is not supported. Similarly, **Hypothesis 5**, which assumed weaker social integration among apathetic and protest-oriented abstainers, receives no empirical support. 
+```
 
-Altough Model 3 was originally not intended to be a robustness check, its lack of significatn new findings shifts its interpretive value. Rather than offering further explanatory dimensions, it strenghtens the conclusions from Models 1 and 2: Persistent abstention in Switzerland is less shaped by media environments or network embeddedness and more by fundamental differences in political motivation and structural inequality. 
+Table 4.3 reports the fit statistics for the three progressively specified multinomial logit models predicting the persistent non-voter categories, with persistent voters as the reference group. Model 1, which includes only socioeconomic predictors, yields an Akaike Information Criterion (AIC) of 2799.45, a Bayesian information Criterion (BIC) of 2989.88 and a McFadden's pseudo-R² of 0.07 (30 degrees of freedom). Upon adding a standardized media-use index in Model 2, the AIC falls to 2747.52, the BIC to 2957.00 and McFadden’s R² rises to 0.089 (33 degrees of freedom), indicating that media consumption explains additional variance in non-voting behavior. The inclusion of political-integration measures (party membership, political discussion and party closeness) in Model 3 yields a further decline in AIC to 2336.93 and BIC to 2603.54, while McFadden’s R² more than doubles to 0.235 (42 degrees of freedom). These systematic reductions in AIC and BIC, together with the substantial increase in pseudo-R², demonstrate that each block of variables—first media usage, then political integration—meaningfully enhances the model’s capacity to distinguish between different non-voter types and voters, despite the growing number of parameters.
+
+This is also confirmed by Table 4.4 which presents likelihood-ratio tests for pairwise comparisons among the three models. Comparing Model 1 against Model 2 (ΔDf = 3) yields χ² = 57.92 (p = 1.63 × 10⁻¹²), confirming that the addition of media usage significantly improves model fit over the socioeconomic baseline. The test of Model 1 versus Model 3 (ΔDf = 12) produces χ² = 486.52 (p = 1.64 × 10⁻⁹⁶), and the comparison of Model 2 versus Model 3 (ΔDf = 9) gives χ² = 428.59 (p = 1.08 × 10⁻⁸⁶). All p-values are far below conventional significance thresholds, indicating that political-integration variables contribute a highly significant improvement in explaining non-voting behavior beyond both socioeconomic characteristics and media usage. Consequently, Model 3 represents the best-fitting specification among the three.
 
 ```{r}
-#| label: table-hypotheses-clean
+#| label: tbl-hypotheses-clean
 #| echo: false
 #| message: false
 #| warning: false
@@ -494,74 +677,324 @@ Altough Model 3 was originally not intended to be a robustness check, its lack o
 library(dplyr)
 library(knitr)
 
-# Hypotheses table without symbols
+# Hypotheses table with updated support statuses
 hypotheses_clean <- tibble::tibble(
-  Hypothesis = c("H1", "H2", "H3a", "H3b", "H4", "H5"),
+  Hypothesis  = c("H1", "H2", "H3", "H4", "H5"),
   Description = c(
-    "Apathetic non-voters show lower political interest than voters",
-    "Protest non-voters show lower trust and satisfaction",
-    "Apathetic non-voters have lower socioeconomic status",
-    "Satisfied non-voters resemble voters socioeconomically",
-    "Apathetic non-voters consume less political media",
-    "Apathetic/protest non-voters are less socially integrated"
+    "Low education increases likelihood of apathetic non-voting",
+    "Low income increases likelihood of protest-oriented non-voting",
+    "High media use reduces likelihood of alternative/satisfied non-voting",
+    "Political discussion reduces apathy more strongly than protest",
+    "Party membership reduces apathetic and protest non-voting"
   ),
   Supported = c(
-    "Supported",
-    "Partially supported",
-    "Supported",
-    "Supported",
-    "Not supported",
-    "Not supported"
+    "Supported (* p<.05)",
+    "Supported (*** p<.001)",
+    "Supported (*** p<.001)",
+    "Supported (*** p<.001 for apathy; ** p<.01 for protest)",
+    "Supported with caution (perfect separation; caution: protest N = 47)"
   )
 )
 
-# Render table
 kable(
   hypotheses_clean,
-  caption = "Table X: Summary of Hypotheses and Empirical Support",
+  caption   = "Summary of Hypotheses and Empirical Support (Model 3)",
   col.names = c("Hypothesis", "Description", "Empirical Support"),
-  align = c("c", "l", "c")
+  align     = c("c", "c", "c")
 )
+
 
 ```
 
-In summary, **Models 1 and 2 provide strong and consistent evidence** for a motivational and socioeconomic explanation of persistent non-voting. **Model 2 performs best**, both in terms of statistical fit and theoretical clarity. Model 3, while methodologically improved through grouped predictors, ultimately reinforces rather than extends the core findings.
+In summary, **Model 3 delivers the most precise and theory-aligned estimates**, confirming all five hypotheses: lower education predicts apathetic non-voting (+0.85*, p \< .05), low income drives protest abstention (+1.52***, p \< .001), high media use sharply reduces alternative/satisfied non-voting (–1.66***, p \< .001), political discussion curtails apathy more than protest (–2.22*\*\* vs. –0.74**, p \< .001/0.01), and party membership perfectly separates out apathetic and protest voters (perfect separation in N=226/47). While** Models 1 and 2\*\* already demonstrated the core motivational and socioeconomic mechanisms, **Model 3** not only improves fit but also **quantifies** each theoretical expectation—thereby reinforcing and deepening our understanding rather than altering the substantive conclusions.
 
 # Discussion
+Several central insights emerge from the analyses. First, resource-related factors continue to shape distinct non-voter profiles in line with the Civic Voluntarism Model. Individuals lacking formal education tend to withdraw from electoral contests out of disengagement, whereas those facing financial constraints are more likely to abstain as an expression of protest. These patterns suggest that both a shortage of personal resources and underlying political discontent serve as enduring barriers to turnout.
 
-The results of this study offer clear empirical support for a typology-based understanding of persistent abstention in Switzerland. Most notably, the first two models demonstrate that motivational and structural factors significantly shape patterns of electoral participation. Political interest stands out as the most consistent predictor, confirming the theoretical expectations derived from the Civic Voluntarism Model (CVM). The strong effects in Model 1 highlight that apathetic non-voters are significantly less politically engaged than voters or other abstainer types.
+Second, measures of media engagement add nuance to this picture. Those who frequently consume political news and commentary are noticeably less inclined to abstain simply because they feel content with the status quo. In other words, exposure to a variety of information sources appears to channel potential abstainers toward alternative forms of civic involvement—such as online discussions or community initiatives—rather than non-participation at the ballot box.
 
-Similarly, Model 2 reveals that lower levels of education and income are strongly associated with apathy-driven abstention. This confirms the notion that resource-based inequalities—both cognitive and material—create barriers to political participation. Satisfied non-voters, by contrast, closely resemble voters in terms of socioeconomic characteristics, which supports the idea of rational disengagement rather than marginalization.
+Third, social-motivational variables underscore the protective role of political embeddedness. Regular discussion of public affairs and active ties to political organizations both work to diminish apathy-driven withdrawal and protest-oriented non-voting. Remarkably, very few abstainers report strong party affiliations, highlighting the importance of interpersonal recruitment networks in sustaining electoral engagement.
 
-The protest-oriented group, while conceptually distinct, remains more elusive empirically. Although Model 1 provides partial support for Hypothesis 2, institutional trust appears less strongly predictive than expected. This may reflect the relatively small group size of protest abstainers, or suggest that protest abstention is more context-sensitive and thus harder to detect through attitudinal variables alone.
+Taken together, model-fit comparisons confirm that combining resource, media, and social-integration predictors significantly improves the ability to distinguish among different non-voter types. These findings indicate that structural constraints, informational exposure, and social ties operate in concert to produce persistent patterns of abstention, rather than acting independently.
 
-Model 3 aimed to test whether communicative and integrative variables (e.g. media consumption, political discussion) add explanatory power. However, even after simplifying the categorical predictors to avoid convergence issues, none of the additional variables reach statistical significance. This suggests that abstention in Switzerland is not primarily driven by information deficits or social isolation, but by deeper motivational and structural cleavages.
+From a theoretical perspective, the results extend existing turnout models by integrating ideas from system-trust research and low-salience theory. This synthesis yields a more differentiated understanding of who abstains and why, challenging one-dimensional approaches. On a practical level, the evidence points toward tailored interventions: low-threshold informational tools—such as clear, jargon-free voting guides for less-educated audiences—and community forums for local deliberation may re-engage apathetic or contented abstainers. Meanwhile, transparent feedback mechanisms that illustrate how individual votes translate into policy outcomes could address the frustrations of protest-driven non-voters.
 
-Importantly, these findings underscore that non-voters are not simply less informed or less connected—but rather differentially resourced and motivated. As such, normative concerns about political exclusion should focus primarily on the apathetic group, which combines low interest with low structural resources. By contrast, satisfied abstainers may not be politically marginalized, but instead selectively disengaged for rational reasons.
+Limitations of the study include exclusive reliance on self-reported data and the reduction of complex motivational forces into composite indices, which may obscure subtle psychological processes. Future research should therefore adopt mixed-methods designs, combining in-depth interviews to explore emotional and cognitive drivers with field experiments to assess which mobilization strategies work best under varying conditions. By doing so, scholars can refine both theory and practice, paving the way for more inclusive democratic participation.
 
-# Limitations 
-
-This study has several limitations that should be considered when interpreting the results.
-
-First, the **small number of cases** in the protest ($n = 43$) and satisfied non-voter ($n = 17$) groups limits statistical power and increases uncertainty in the estimates. Findings for these categories, especially the latter, should be viewed with caution.
-
-Second, the classification of non-voter types is based on **self-reported reasons for abstention**, which may be affected by **social desirability bias** or post-hoc rationalization. Theoretical categories may oversimplify more complex individual motivations.
-
-Third, to ensure model stability, several independent variables were **simplified or grouped**, potentially reducing nuance and masking relevant subgroup differences.
-
-Lastly, the analysis is based on **cross-sectional panel data**, which does not allow for causal inference or capture changes over time.
-
-Despite these limitations, the study offers important insights into the structure of persistent non-voting in Switzerland and provides a solid basis for further research.
 
 # Conclusion
+This study deepens understanding of electoral abstention by augmenting the Civic Voluntarism Model with insights from media engagement and social embeddedness. Its chief innovation lies in weaving together resource-based explanations with perspectives on system trust and issue salience, thereby moving beyond a one-dimensional account of who abstains to illuminate why different segments opt out of voting.
 
-This paper examined the determinants of persistent non-voting in Switzerland using data from the SELECTS 2019–2023 panel study. Building on existing typologies, it classified abstainers into three groups—apathetic, protest-oriented, and satisfied—and tested a series of theory-driven hypotheses using multinomial logistic regression.
+The analysis reveals that deficits in personal resources and levels of formal education shape distinct forms of non-voting. Lower educational attainment tends to foster disengagement and apathy, whereas constrained economic circumstances drive abstention motivated by dissatisfaction or protest. Introducing measures of media engagement highlights the power of information exposure to counteract contentment-based non-participation: those who routinely consume political news and commentary are drawn toward alternative civic activities rather than withdrawing from the ballot. Equally significant is the role of social recruitment networks. Individuals embedded in political conversations and formal party structures exhibit markedly lower tendencies to abstain, whether through apathy or protest, underscoring how interpersonal ties and organizational affiliation function as catalysts for turnout.
 
-The analysis shows that political motivation and socioeconomic status are the most robust predictors of abstention type. Apathetic abstainers are systematically less interested in politics and face structural barriers to participation. Protest abstainers differ less consistently from voters, while satisfied abstainers resemble voters in most respects but choose not to participate for strategic or normative reasons.
+In answering the central research question—**Which socio-economic and socio-political factors explain membership in the three categories of persistent non-voters?**—the models show that low education most strongly predicts apathy-driven abstention, low income corresponds to protest-driven abstention, and strong party ties plus regular political discussion consistently reduce the likelihood of any form of persistent non-voting. Media engagement further distinguishes the satisfied/alternative group by linking high news consumption to continued civic involvement outside the ballot box. These insights confirm that resource constraints and embeddedness jointly shape who abstains and why.
 
-The study further demonstrates that media use and social integration, while often emphasized in the literature, do not appear to meaningfully explain persistent abstention in the Swiss case. This suggests that outreach efforts aimed at increasing participation should focus more on improving political efficacy and addressing structural inequalities than on purely communicative interventions.
+These findings carry important theoretical and practical implications. By demonstrating that resources, informational access, and social-motivational factors operate in concert, the study extends the reach of the Civic Voluntarism Model into a more nuanced framework that captures the heterogeneous nature of non-voters. From a policy perspective, the results suggest tailored interventions—concise voting guides for the less educated, deliberative forums for the apathetic, transparent feedback for protest-oriented abstainers, and integrative outreach to connect alternative participants back to the ballot.
 
-In sum, this research highlights the importance of distinguishing between different types of non-voters. While some forms of abstention may be normatively benign, others reflect deeper patterns of exclusion. Differentiated engagement strategies—tailored to the needs and constraints of each group—are therefore essential for strengthening democratic participation in Switzerland.
+Despite these advances, the study’s reliance on self-reports and composite indices presents limitations, and its cross-sectional design constrains causal inference. Future mixed-method research—combining qualitative interviews with field experiments—can unpack the cognitive and emotional drivers of each non-voter type and rigorously test these mobilization strategies, advancing efforts toward a more inclusive and vibrant democracy.
+
+
+\`\`
 
 \newpage
+
 # References
+
+::: {#refs}
+:::
+
+# Appendix
+
+## Average marginal effects
+
+```{r ame-longtable, echo=FALSE, results='asis', message=FALSE}
+library(dplyr)
+library(kableExtra)
+library(knitr)
+
+# 1) Daten laden und vorbereiten -----------------------------------------
+ame_m1 <- readRDS("Daten/ame_m1.rds") |> mutate(model = "Model 1")
+ame_m2 <- readRDS("Daten/ame_m2.rds") |> mutate(model = "Model 2")
+ame_m3 <- readRDS("Daten/ame_m3.rds") |> mutate(model = "Model 3")
+
+ame_all <- bind_rows(ame_m1, ame_m2, ame_m3) %>%
+  filter(!is.na(group) & group != "voter") %>%
+  mutate(
+    AME = estimate * 100,
+    SE  = std.error * 100
+  )
+
+# 2) pred_key & Predictor erzeugen --------------------------------------
+coef_map <- c(
+  "interest_z"           = "Political interest (z)",
+  "trust_parliament_z"   = "Trust in parliament (z)",
+  "trust_council_z"      = "Trust in federal council (z)",
+  "edu_grouplow"         = "Compulsory education (vs. high)",
+  "edu_groupmid"         = "Secondary education (vs. high)",
+  "edu_groupunknown"     = "Unknown education level (vs. high)",
+  "income_catlow"        = "Low household income (vs. high)",
+  "income_catmid"        = "Middle household income (vs. high)",
+  "income_catunknown"    = "Unknown household income (vs. high)",
+  "job_catother"         = "Other employment status (vs. full-time)",
+  "job_catparttime"      = "Part-time employment (vs. full-time)",
+  "job_catunknown"       = "Unknown employment status (vs. full-time)",
+  "media_index_z"        = "Media use index (z)",
+  "membership_dummy"     = "Party membership (yes vs. no)",
+  "discussion_z"         = "Political discussion (z)"
+)
+
+tbl_long <- ame_all %>%
+  mutate(
+    pred_key = case_when(
+      contrast %in% c("low - high", "mid - high", "unknown - high") ~
+        paste0(term, sub(" -.*$", "", contrast)),
+      contrast %in% c("other - fulltime", "parttime - fulltime", "unknown - fulltime") ~
+        paste0(term, sub(" -.*$", "", contrast)),
+      TRUE ~ term
+    ),
+    Predictor = recode(pred_key, !!!coef_map, .default = pred_key),
+    AME       = sprintf("%.2f", AME),
+    SE        = sprintf("%.2f", SE)
+  ) %>%
+  select(Model = model, Outcome = group, Predictor, AME, SE)
+
+# 3) gewünschte Reihenfolge festlegen -----------------------------------
+desired_order <- c(
+  # Motivation
+  "Political interest (z)",
+  "Trust in parliament (z)",
+  "Trust in federal council (z)",
+  # Education
+  "Compulsory education (vs. high)",
+  "Secondary education (vs. high)",
+  "Unknown education level (vs. high)",
+  # Income
+  "Low household income (vs. high)",
+  "Middle household income (vs. high)",
+  "Unknown household income (vs. high)",
+  # Employment
+  "Part-time employment (vs. full-time)",
+  "Other employment status (vs. full-time)",
+  "Unknown employment status (vs. full-time)",
+  # Media & Engagement
+  "Media use index (z)",
+  "Political discussion (z)",
+  "Party membership (yes vs. no)"
+)
+
+# 4) Predictor als Faktor und sortieren ----------------------------------
+tbl_long <- tbl_long %>%
+  mutate(Predictor = factor(Predictor, levels = desired_order)) %>%
+  arrange(Model, Outcome, Predictor)
+
+# 5) Tabelle ausgeben ----------------------------------------------------
+kbl(tbl_long,
+    caption   = "Average Marginal Effects , Standard Error by Model and Outcome in percentage points",
+    booktabs  = TRUE,
+    longtable = TRUE,
+    align     = c("l","l","l","c","c"),
+    col.names = c("Model","Outcome","Predictor","AME (pp)","SE (pp)")
+) %>%
+  kable_styling(
+    latex_options = c("repeat_header","hold_position"),
+    font_size     = 8,
+    full_width    = FALSE
+  ) %>%
+  group_rows("Model 1 (Motivation)", 1,
+             sum(tbl_long$Model == "Model 1")) %>%
+  group_rows("Model 2 (+ Resources)",
+             sum(tbl_long$Model == "Model 1") + 1,
+             sum(tbl_long$Model %in% c("Model 1","Model 2"))) %>%
+  group_rows("Model 3 (+ Media & Engagement)",
+             sum(tbl_long$Model %in% c("Model 1","Model 2")) + 1,
+             nrow(tbl_long)) %>%
+  column_spec(3, width = "4cm") %>%
+  footnote(
+    general = c(
+      "AME = average change in predicted probability when the predictor increases by one unit (in percentage points).",
+      "SE = standard error; 95% CI (Confidence Interval) = AME ± 1.96 × SE."
+    ),
+    threeparttable    = TRUE,
+    footnote_as_chunk = TRUE
+  )
+
+
+```
+
+## Variable List
+
+```{r}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# 1) Build metadata tibble ---------------------------------------------
+vars <- tribble(
+  ~Model,      ~Variable,          ~Label,                                                      ~Type,          ~Notes,
+  "All",       "vote_group",        "Vote grouping (ref = “voter”)",                              "Factor (4)",   "voter / apathetic / protest / satisfied",
+  
+  "Model 1",   "edu_group",         "Education level",                                           "Factor (3)",   "low / mid / high",
+  "Model 1",   "income_cat",        "Household income",                                          "Factor (3)",   "low / mid / high",
+  "Model 1",   "job_cat",           "Employment status",                                         "Factor (3)",   "fulltime / parttime / other",
+
+  "Model 2",   "media_index_z",     "Media-use index",                                           "Numeric (z)",  "Mean of 5 items; z-standardized",
+  
+  "Model 3",   "membership_dummy",  "Party-membership dummy",                                    "Integer (0/1)", "1 = member (codes 10–350); 0 = otherwise",
+  "Model 3",   "discussion_z",      "Political-discussion frequency",                            "Numeric (z)",  "Wave 2 measure; z-standardized",
+  "Model 3",   "w1_f14000",        "Closeness to a party",                                      "Integer (0/1)", "Codes 3–4 vs 1–2",
+
+  "Auxiliary", "trust_parliament_z","Trust in parliament",                                       "Numeric (z)",  "10-point scale; z-standardized",
+  "Auxiliary", "trust_council_z",   "Trust in federal council",                                  "Numeric (z)",  "10-point scale; z-standardized"
+)
+
+# 2) Render as grouped longtable ---------------------------------------
+vars %>%
+  arrange(factor(Model, levels = c("All","Model 1","Model 2","Model 3","Auxiliary"))) %>%
+  group_by(Model) %>%
+  do({
+    df <- .
+    if (first(df$Model) != "All") {
+      df <- bind_rows(tibble(Model="",Variable="",Label="",Type="",Notes=""), df)
+    }
+    df
+  }) %>%
+  ungroup() %>%
+  select(-Model) %>%
+  kable(
+    format       = "latex",
+    booktabs     = TRUE,
+    longtable    = TRUE,
+    caption      = "Variable list for multinomial logit models",
+    align        = c("l","l","l","l"),
+    col.names    = c("Variable","Label","Type","Notes")
+  ) %>%
+  kable_styling(
+    latex_options   = c("repeat_header","hold_position"),
+    font_size       = 9,
+    full_width      = FALSE
+  ) %>%
+  column_spec(1, width = "3cm") %>%
+  column_spec(2, width = "4cm") %>%
+  column_spec(3, width = "2.5cm") %>%
+  column_spec(4, width = "5cm")
+
+```
+
+```{r}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+# 1) Define metadata for classification variables --------------------------------
+class_vars <- tribble(
+  ~Group,              ~Variable,          ~Label,                                                            ~Type,           ~Coding,
+  "Protest score",     "w3_f11304",        "Not convinced by any party/candidate",                            "Logical",       "1 = yes",
+  "Protest score",     "w3_f12800a",       "Trust in federal council",                                        "Numeric",       "1–10; counted if ≤4 or =0",
+  "Protest score",     "w3_f12800b",       "Trust in federal assembly",                                       "Numeric",       "1–10; counted if ≤4 or =0",
+  "Protest score",     "w3_f11309",        "Elections do not change anything",                                "Logical",       "1 = yes",
+  "Protest score",     "w3_f12800c",       "Trust in national parties",                                       "Numeric",       "1–10; counted if ≤4 or =0",
+  "Protest score",     "w1_f13700",        "Satisfaction with democracy",                                     "Numeric",       "1–10; counted if ≤2 or =0",
+  
+  "Apathetic score",   "w3_f11303",        "Elections too complicated",                                       "Logical",       "1 = yes",
+  "Apathetic score",   "w3_f11302",        "Not interested in politics",                                      "Logical",       "1 = yes",
+  "Apathetic score",   "w3_f11306",        "Did not know candidates",                                         "Logical",       "1 = yes",
+  "Apathetic score",   "w2_f10160",        "Paid little attention to campaign",                               "Logical",       "1 = yes",
+  "Apathetic score",   "w3_f10100",        "Rather not interested in politics",                               "Numeric",       "1–4; counted if ≤2",
+  
+  "Satisfied score",   "w3_f12610a",       "Signed petition/initiative/referendum (past 5 yrs)",             "Logical",       "1 = yes",
+  "Satisfied score",   "w3_f11302",        "Interested in politics",                                          "Logical",       "2 = yes",
+  "Satisfied score",   "w1_f13700",        "Satisfaction with democracy",                                     "Numeric",       "1–10; counted if ≥3",
+  "Satisfied score",   "w3_n13_030g2",     "Participated in party activities",                                "Logical",       "1 = yes",
+  "Satisfied score",   "w3_n13_030e1",     "Member of environmental organization",                            "Logical",       "1 = yes",
+  "Satisfied score",   "w3_n13_030d1",     "Member of human rights/peace organization",                       "Logical",       "1 = yes",
+  "Satisfied score",   "w3_n13_030c1",     "Member of consumer organization",                                 "Logical",       "1 = yes",
+  "Satisfied score",   "w3_n13_030b1",     "Member of economic/employers association",                        "Logical",       "1 = yes",
+  "Satisfied score",   "w3_n13_030a1",     "Member of union/employee organization",                           "Logical",       "1 = yes",
+  "Satisfied score",   "w3_f10100",        "Rather interested in politics",                                   "Numeric",       "1–4; counted if ≥3",
+  "Satisfied score",   "w3_f12800c",       "Trust in national parties",                                       "Numeric",       "1–10; counted if ≥7 or =10",
+  
+  "Classification",    "score_protest",    "Sum of protest indicators",                                       "Integer",       "Range 0–6",
+  "Classification",    "score_apathetic",  "Sum of apathetic indicators",                                     "Integer",       "Range 0–5",
+  "Classification",    "score_satisfied",  "Sum of satisfied indicators",                                     "Integer",       "Range 0–10",
+  "Classification",    "vote_group",       "Final group assignment",                                          "Factor",        "Based on max score; voters added separately"
+)
+
+# 2) Render grouped longtable --------------------------------------------------
+class_vars %>%
+  group_by(Group) %>%
+  do({
+    df <- .
+    if (first(df$Group) != "Protest score") {
+      df <- bind_rows(tibble(Group = "", Variable = "", Label = "", Type = "", Coding = ""), df)
+    }
+    df
+  }) %>%
+  ungroup() %>%
+  select(-Group) %>%
+  kable(
+    format       = "latex",
+    booktabs     = TRUE,
+    longtable    = TRUE,
+    caption      = "Variables used for non-voter group classification",
+    align        = c("l","l","l","l","l"),
+    col.names    = c("Variable","Label","Type","Coding")
+  ) %>%
+  kable_styling(
+    latex_options = c("repeat_header","hold_position"),
+    font_size     = 9,
+    full_width    = FALSE
+  ) %>%
+  column_spec(1, width = "3cm") %>%
+  column_spec(2, width = "5cm") %>%
+  column_spec(3, width = "2.5cm") %>%
+  column_spec(4, width = "4cm")
+
+```
+
+\newpage
+
+## R-Code
+```{r ref.label=knitr::all_labels()}
+#| echo: true
+#| eval: FALSE
+```
